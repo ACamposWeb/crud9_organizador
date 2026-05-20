@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Servicios - Vento Planner</title>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar-wrapper">
+        <div class="logo-section p-4 mb-2 text-white text-center">
+            <img src="LogoVP.png" alt="Logo" class="img-fluid mb-3 sidebar-logo-img" style="max-height: 140px; width: auto;">
+            <h5 class="fw-bold mb-0 gradient-text" style="letter-spacing: 1px; font-size: 1.5rem;">Vento Planner</h5>
+        </div>
+        <div class="list-group list-group-flush px-2">
+            <a href="index.html" class="list-group-item list-group-item-action"><i class="bi bi-house-door me-3"></i>Inicio</a>
+            <a href="eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-calendar-event me-3"></i>Eventos</a>
+            <a href="reportes.html" class="list-group-item list-group-item-action"><i class="bi bi-bar-chart-line me-3"></i>Reportes</a>
+            <a href="tipos_eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-trophy me-3"></i>Tipos de Eventos</a>
+            <!-- Activo -->
+            <a href="servicios.html" class="list-group-item list-group-item-action active"><i class="bi bi-tools me-3"></i>Servicios</a>
+            <a href="configuracion.html" class="list-group-item list-group-item-action mt-3"><i class="bi bi-gear me-3"></i>Configuración</a>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="page-content-wrapper">
+        <!-- Navbar Claro -->
+        <nav class="navbar py-3 px-4">
+            <div class="container-fluid">
+                <div>
+                    <h6 class="mb-0 fw-bold page-title">
+                        <i class="bi bi-clipboard-data me-2" style="color: #a3a168;"></i>Catálogo Completo de Servicios
+                    </h6>
+                    <small class="page-subtitle">Explora todas las opciones disponibles y sus precios individuales.</small>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-4 pb-5">
+
+            <!-- ================= CATEGORÍA: ALIMENTOS Y BEBIDAS ================= -->
+            <h4 class="category-header"><i class="bi bi-cup-hot-fill me-2"></i>Alimentos y Bebidas (Catering)</h4>
+            <div class="row g-3">
+                <!-- Servicio 1 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-egg-fried"></i></div>
+                            <h6 class="service-title">Buffet Clásico (2 Tiempos)</h6>
+                        </div>
+                        <p class="service-desc">Incluye entrada (crema/pasta), plato fuerte con 2 guarniciones, pan y salsas. Servicio de meseros.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$18.00</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 2 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-stars"></i></div>
+                            <h6 class="service-title">Cena Gourmet (3 Tiempos)</h6>
+                        </div>
+                        <p class="service-desc">Menú de alta cocina: Entrada, plato fuerte y postre emplatado. Incluye prueba de menú para 2 personas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$35.00</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 3 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-box-seam"></i></div>
+                            <h6 class="service-title">Working Lunch (Box)</h6>
+                        </div>
+                        <p class="service-desc">Ideal para corporativos. Empaque individual con chapata/baguette, ensalada, fruta, postre y bebida.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$12.50</span>
+                            <span class="service-unit">/ unidad</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 4 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-cup-straw"></i></div>
+                            <h6 class="service-title">Barra Libre Nacional</h6>
+                        </div>
+                        <p class="service-desc">Servicio por 4 horas. Incluye destilados nacionales (tequila, ron, vodka, whisky), mezcladores y hielo.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$22.00</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 5 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-cocktail"></i></div>
+                            <h6 class="service-title">Estación de Mixología</h6>
+                        </div>
+                        <p class="service-desc">Barra especializada con mixólogo preparando cócteles de autor y clásicos durante 3 horas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$450.00</span>
+                            <span class="service-unit">Precio Fijo (hasta 50 pax)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 6 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-cake2-fill"></i></div>
+                            <h6 class="service-title">Mesa de Postres Premium</h6>
+                        </div>
+                        <p class="service-desc">Variedad de 5 postres mini por persona, montados en bases decorativas según la temática.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$8.00</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio 7 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-cookie"></i></div>
+                            <h6 class="service-title">Candy Bar Temático</h6>
+                        </div>
+                        <p class="text-black service-desc">Montaje decorado con variedad de dulces, gomitas, chocolates y confitería a granel y en bolsitas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$6.50</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 8 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-box2-heart"></i></div>
+                            <h6 class="service-title">Snack Bar Salado</h6>
+                        </div>
+                        <p class="service-desc">Estación de botanas: papas, cacahuates, palomitas, chicharrones con variedad de salsas y toppings.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$5.50</span>
+                            <span class="service-unit">/ persona</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 9 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food" style="background: linear-gradient(135deg, #7b4397, #dc2430);"><i class="bi bi-droplet-fill"></i></div>
+                            <h6 class="service-title">Fuente de Chocolate</h6>
+                        </div>
+                        <p class="service-desc">Fuente profesional de 3 niveles con chocolate (oscuro o blanco) y brochetas de fruta y malvaviscos.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$180.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio 10 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-food"><i class="bi bi-wine"></i></div>
+                            <h6 class="service-title">Servicio de Descorche</h6>
+                        </div>
+                        <p class="service-desc">Incluye cristalería (copas/vasos), hielo ilimitado y mezcladores básicos (refrescos, agua mineral) para tus botellas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$50.00</span>
+                            <span class="service-unit">/ por botella</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= CATEGORÍA: AUDIO, VIDEO Y TECNOLOGÍA ================= -->
+            <h4 class="category-header"><i class="bi bi-speaker-fill me-2"></i>Audio, Video y Tecnología (AV)</h4>
+            <div class="row g-3">
+                <!-- Servicio AV 1 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-av"><i class="bi bi-music-note-beamed"></i></div>
+                            <h6 class="service-title">Servicio de DJ Profesional</h6>
+                        </div>
+                        <p class="service-desc">DJ versátil con cabina iluminada. Incluye audio para hasta 150 personas. Precio por bloque de 5 horas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$350.00</span>
+                            <span class="service-unit">/ evento (5 hrs)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio AV 2 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-av"><i class="bi bi-grid-3x3"></i></div>
+                            <h6 class="service-title">Pista de Baile LED</h6>
+                        </div>
+                        <p class="service-desc">Pista iluminada por módulos (pixel o cristal). Tamaño estándar de 5x5 metros.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$500.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio AV 3 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-av"><i class="bi bi-projector-fill"></i></div>
+                            <h6 class="service-title">Kit de Proyección Corporativo</h6>
+                        </div>
+                        <p class="service-desc">Proyector de alta luminosidad (4000 lúmenes), pantalla de tripie y cableado necesario.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$120.00</span>
+                            <span class="service-unit">/ día</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio AV 4 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-av"><i class="bi bi-mic-fill"></i></div>
+                            <h6 class="service-title">Sistema de Micrófonos</h6>
+                        </div>
+                        <p class="service-desc">Set de 2 micrófonos inalámbricos profesionales (mano o solapa) con consola de audio básica.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$80.00</span>
+                            <span class="service-unit">/ día</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= CATEGORÍA: DECORACIÓN Y MONTAJE ================= -->
+            <h4 class="category-header"><i class="bi bi-palette-fill me-2"></i>Decoración y Montaje</h4>
+            <div class="row g-3">
+                <!-- Servicio Deco 1 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-deco"><i class="bi bi-table"></i></div>
+                            <h6 class="service-title">Mantelería Premium</h6>
+                        </div>
+                        <p class="service-desc">Renta de mantel largo, cubre mantel de tela fina (organza, shantung) y servilleta de tela. Varios colores.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$15.00</span>
+                            <span class="service-unit">/ mesa (10 pax)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Deco 2 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-deco"><i class="bi bi-flower1"></i></div>
+                            <h6 class="service-title">Centro de Mesa Floral Alto</h6>
+                        </div>
+                        <p class="service-desc">Arreglo floral grande en base alta de cristal o metal. Flores de temporada según paleta de colores.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$65.00</span>
+                            <span class="service-unit">/ unidad</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Deco 3 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-deco"><i class="bi bi-balloon-fill"></i></div>
+                            <h6 class="service-title">Arco Orgánico de Globos</h6>
+                        </div>
+                        <p class="service-desc">Decoración de 3 metros lineales con globos de diferentes tamaños y colores (estilo orgánico).</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$180.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Deco 4 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-deco"><i class="bi bi-chair-fill"></i></div>
+                            <h6 class="service-title">Silla Tiffany / Versalles</h6>
+                        </div>
+                        <p class="service-desc">Renta de silla de diseño (Tiffany, Versalles o Avant Garde) con cojín. Colores: Blanco, Dorado, Plata.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$3.50</span>
+                            <span class="service-unit">/ unidad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= CATEGORÍA: EXTRAS Y ENTRETENIMIENTO ================= -->
+            <h4 class="category-header"><i class="bi bi-camera-reels-fill me-2"></i>Extras y Entretenimiento</h4>
+            <div class="row g-3">
+                <!-- Servicio Extra 1 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-camera-fill"></i></div>
+                            <h6 class="service-title">Paquete Foto y Video Completo</h6>
+                        </div>
+                        <p class="service-desc">Cobertura de 8 horas. Incluye fotógrafo, videógrafo, edición, entrega digital y álbum impreso básico.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$1,200.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Extra 2 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-emoji-smile-fill"></i></div>
+                            <h6 class="service-title">Cabina Fotográfica (Photobooth)</h6>
+                        </div>
+                        <p class="service-desc">Servicio por 2 horas. Fotos impresas ilimitadas al momento, props divertidos y fondo estándar.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$250.00</span>
+                            <span class="service-unit">/ 2 horas</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Extra 3 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-music-note"></i></div>
+                            <h6 class="service-title">Mariachi en Vivo</h6>
+                        </div>
+                        <p class="service-desc">Grupo de mariachi profesional (7-9 elementos) para serenata o amenización. Precio por hora.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$300.00</span>
+                            <span class="service-unit">/ hora</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Servicio Extra 4 -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-person-check-fill"></i></div>
+                            <h6 class="service-title">Coordinador de Evento (Día D)</h6>
+                        </div>
+                        <p class="service-desc">Planner profesional para supervisar montaje, proveedores y el flujo del evento durante 8 horas.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$400.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO: Grupo en Vivo -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-music-note-list"></i></div>
+                            <h6 class="service-title">Grupo Musical Versátil</h6>
+                        </div>
+                        <p class="service-desc">Grupo en vivo (5+ integrantes) con repertorio variado para bailar. Incluye audio para el grupo.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$650.00</span>
+                            <span class="service-unit">/ hora (mínimo 2)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- NUEVO: Animador por hora -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-emoji-laughing-fill"></i></div>
+                            <h6 class="service-title">Animador/a Profesional</h6>
+                        </div>
+                        <p class="service-desc">Conducción del evento, realización de juegos, concursos y dinámicas de integración con los invitados.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$85.00</span>
+                            <span class="service-unit">/ hora</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- NUEVO: Kit de Revelación de Género -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra" style="background: linear-gradient(135deg, #89f7fe, #66a6ff);"><i class="bi bi-gender-ambiguous"></i></div>
+                            <h6 class="service-title">Kit Revelación de Género</h6>
+                        </div>
+                        <p class="service-desc">Opciones creativas: Extintor de polvo de color, caja sorpresa con globos de helio o bombas de humo.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$120.00</span>
+                            <span class="service-unit">Precio Fijo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- NUEVO: Recuerdos Personalizados -->
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="service-card-detailed">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="service-icon-box bg-cat-extra"><i class="bi bi-gift-fill"></i></div>
+                            <h6 class="service-title">Recuerdos Personalizados</h6>
+                        </div>
+                        <p class="service-desc">Detalles temáticos para invitados (ej. suculentas, velas, llaveros) con etiqueta personalizada del evento.</p>
+                        <div class="service-price-container">
+                            <span class="service-price">$3.50</span>
+                            <span class="service-unit">/ unidad (mínimo 20)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fin container -->
+    </div> <!-- Fin page-content -->
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
