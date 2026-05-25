@@ -2,21 +2,79 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Eventos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-  <header>
-    <h1>Gestión de Eventos</h1>
-  </header>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-  <!-- Dashboard -->
-  <section id="dashboard">
-    <h2>Dashboard</h2>
-    <section id="mensaje"></section>
-  </section>
+  <div class="app">
 
+    <header class="header">
+      <div class="logo-mark" aria-hidden="true">
+        <i class="ti ti-calendar-event"></i>
+      </div>
+      <h1>Gestión de Eventos</h1>
+      <p class="subtitle">Organiza y administra tus próximos eventos</p>
+    </header>
+
+    <!-- Toast / Mensaje UX -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <!-- Formulario -->
+    <section class="form-card" aria-label="Agregar nuevo evento">
+      <div class="form-inner">
+        <div class="field">
+          <label for="title">
+            <i class="ti ti-text-size" aria-hidden="true"></i>
+            Título del evento
+          </label>
+          <input type="text" id="title" placeholder="Ej. Reunión de equipo...">
+        </div>
+        <div class="field field--date">
+          <label for="date">
+            <i class="ti ti-calendar" aria-hidden="true"></i>
+            Fecha
+          </label>
+          <input type="date" id="date">
+        </div>
+        <button type="button" id="addBtn" class="add-btn" aria-label="Agregar evento">
+          <i class="ti ti-plus" aria-hidden="true"></i>
+          <span>Agregar</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Lista de eventos -->
+    <section class="list-section" aria-label="Lista de eventos">
+      <div class="list-header">
+        <h2 class="list-title">Próximos eventos</h2>
+        <span class="count-badge" id="countBadge" aria-live="polite">0 eventos</span>
+      </div>
+
+      <div id="eventList" aria-live="polite"></div>
+    </section>
+
+  </div>
+
+  <!-- Modal de edición -->
+  <div id="modalOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal" id="modalBox">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title"></h2>
+        <button class="modal-close" id="modalClose" aria-label="Cerrar">
+          <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
 
   <script src="js/app.js"></script>
 </body>
