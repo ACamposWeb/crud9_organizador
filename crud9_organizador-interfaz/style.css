@@ -1,0 +1,403 @@
+/* --- Fuentes y Configuración General --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --sidebar-bg: #212b26; /* Color exacto del sidebar oscuro */
+    --card-glass-bg: rgba(35, 50, 45, 0.55); /* El color oscuro semi-transparente de las cajas */
+    --accent-gold: #a3a168; /* El tono dorado/oliva de los botones y badges */
+    --accent-teal: #5a9e7a; /* El tono verde azulado del badge "Activar" */
+    --text-muted: #aab8b0;
+    --border-glass: rgba(255,255,255,0.08);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    /* Recreación del degradado de fondo (sin las ondas de textura) */
+    background: linear-gradient(135deg, #1a3a2a 0%, #0e3d4a 35%, #1e1a3a 70%, #2a1535 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* Color para los Títulos Principales */
+h2, .fw-bold {
+    color: #0d264a !important;
+}
+
+h5, .text-white {
+    color: #453795 !important;
+}
+
+p, .text-white-50 {
+    color: #c7af58 !important;
+}
+
+p, .text-black {
+    color: #1d1930 !important;
+}
+
+/* --- Layout y Sidebar --- */
+#wrapper {
+    overflow-x: hidden;
+    display: flex;
+    width: 100%;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 250px; /* Ancho fijo para el sidebar */
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(155, 195, 158, 0.95) 0%, rgba(100, 215, 228, 0.90) 50%, rgba(225, 200, 245, 0.90) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+#page-content-wrapper {
+    flex-grow: 1; /* Ocupa el resto del espacio */
+    overflow-y: auto;
+}
+
+/* Estilos del Menú Lateral */
+.sidebar .list-group-item {
+    background: transparent;
+    color: #0d2618 !important;
+    border: none;
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+}
+
+.sidebar .list-group-item i {
+    color: #0d2618;   /* iconos también oscuros */
+}
+
+.sidebar .list-group-item.active {
+    background: rgba(0,0,0,0.18) !important;
+    color: #1a3a2a !important;
+    color: #000 !important;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.sidebar .list-group-item:hover {
+    background: rgba(0,0,0,0.12) !important;
+    color: #000 !important;
+    transform: translateX(4px);
+}
+
+/* --- Texto con Degradado --- */
+.gradient-text {
+    background: linear-gradient(45deg, #5a9e7a, #2a8f9c, #a685e2);
+    
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    
+    font-weight: 800 !important; 
+    
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* --- Quitar fondo blanco del logo --- */
+.sidebar-logo-img {
+    mix-blend-mode: multiply;
+    filter: brightness(1.3) contrast(1.3) saturate(1.2);
+}
+
+/* Estado activo (el rectángulo gris claro del menú) */
+.sidebar .list-group-item.active {
+    background-color: rgba(255,255,255,0.15);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* --- LA CLAVE: Estilo de las Cajas Transparentes (Glassmorphism) --- */
+.glass-card {
+    background-color: var(--card-glass-bg); /* Color oscuro con transparencia */
+    backdrop-filter: blur(15px); /* El desenfoque fuerte del fondo */
+    -webkit-backdrop-filter: blur(15px); /* Para Safari */
+    border-radius: 24px; /* Bordes muy redondeados */
+    padding: 1.8rem;
+    /* Borde sutil y sombra suave para dar volumen */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* --- Estilos de la Tabla --- */
+.custom-table thead th {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding-bottom: 1rem;
+}
+
+.custom-table tbody td {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 1rem 0.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* --- Badges (Etiquetas) --- */
+.badge {
+    padding: 0.5em 1.2em;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+.badge-gold {
+    background-color: var(--accent-gold);
+    color: #2c3e35; /* Texto oscuro para contraste */
+}
+
+.badge-teal {
+    background-color: var(--accent-teal);
+    color: #fff;
+}
+
+/* --- Iconos y Botones --- */
+.icon-gold { color: var(--accent-gold); }
+.icon-purple { color: #8e7db3; }
+
+.btn-gold {
+    background-color: var(--accent-gold);
+    color: #3d3b24;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.btn-gold:hover { background-color: #8f8d5a; color: #fff; }
+
+.btn-dark-glass {
+    background-color: rgba(63, 68, 73, 0.5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.btn-dark-glass:hover { transform: translateY(-5px);
+    background: rgba(20, 25, 30, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important; 
+}
+
+/* ===== NUEVOS ESTILOS DE BOTONES PARA PAQUETES DE EVENTOS ===== */
+
+/* Botón Básico (Gris) */
+.btn-choose-basic {
+    background: linear-gradient(135deg, #b8c6db 0%, #9bb2c9 100%);
+    border: 1px solid rgba(180, 158, 158, 0.5);
+}
+
+/* Botón Clásico (Dorado/Oliva) */
+.btn-choose-classic {
+    background: linear-gradient(135deg, #a3a168, #d4c97a);
+}
+
+/* Botón Premium (Turquesa) */
+.btn-choose-premium {
+    background: linear-gradient(135deg, #2a8f9c, #00c9a7);
+}
+
+/* Botón Lujo (Morado) */
+.btn-choose-luxury {
+    background: linear-gradient(135deg, #845ec2, #c77dff);
+}
+
+/* --- Servicios Destacados (Imágenes inferiores) --- */
+.service-card {
+    position: relative;
+    height: 180px;
+}
+
+.service-card img {
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.service-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    /* Degradado oscuro en la parte inferior de la imagen */
+    background: linear-gradient(to top, rgba(20, 30, 25, 0.9), transparent);
+}
+
+/* --- Estilos adicionales para las nuevas páginas --- */
+
+/* Formularios Glass */
+.form-control-glass, .form-select-glass {
+    background-color: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+}
+.form-control-glass:focus, .form-select-glass:focus {
+    background-color: rgba(255,255,255,0.15);
+    border-color: rgba(163,161,104,0.6);
+    color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(163,161,104,0.2);
+}
+.form-control-glass::placeholder { color: rgba(255,255,255,0.35); }
+.form-select-glass option { background-color: #212b26; color: #fff; }
+
+/* Badges adicionales */
+.badge-purple { background-color: #845ec2; color: #fff; }
+.badge-dark-outline {
+    background-color: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Botón peligro (eliminar) */
+.btn-danger-glass {
+    background-color: rgba(220,53,69,0.25);
+    color: #ff6b7a;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.btn-danger-glass:hover { background-color: rgba(220,53,69,0.5); color: #fff; }
+
+/* Cards de Metricas */
+.glass-card-light {
+    /* Fondo blanco con transparencia */
+    background: rgba(255, 255, 255, 0.18) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(6, 116, 109, 0.5) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+/* Cards de Tipos de Eventos */
+.tipo-evento-card { transition: transform 0.3s ease; }
+.tipo-evento-card:hover { transform: translateY(-5px); }
+.tipo-icon-wrapper {
+    width: 60px; height: 60px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Cards de Servicios */
+.servicio-card { display: flex; flex-direction: column; transition: transform 0.3s ease; }
+.servicio-card:hover { transform: translateY(-5px); }
+.servicio-header {
+    width: 70px; height: 70px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Separador glass */
+.border-glass { border-color: rgba(255,255,255,0.1) !important; }
+
+/* Barras de progreso */
+.progress-glass { background-color: rgba(255,255,255,0.1); border-radius: 10px; }
+.bg-gold { background-color: var(--accent-gold) !important; }
+.bg-purple { background-color: #845ec2 !important; }
+.bg-teal { background-color: var(--accent-teal) !important; }
+
+
+/* Seccion de Servicios */
+        /* ===== TEMA CLARO GENERAL ===== */
+        body {
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0e8f8 25%, #e8f8f0 50%, #f8f0e8 75%, #e8eef8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        #page-content-wrapper .navbar {
+            background: rgba(255,255,255,0.6) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.8);
+        }
+        .page-title { color: #1a2e22; }
+        .page-subtitle { color: #6c757d; }
+
+        /* ===== ESTILOS PARA LAS TARJETAS DE SERVICIO ===== */
+        .service-card-detailed {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: 100%; /* Asegura que todas las cards en una fila tengan la misma altura */
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .service-card-detailed:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.9);
+            border-color: #a3a168;
+        }
+        .service-icon-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        /* Colores de fondo para iconos por categoría */
+        .bg-cat-food { background: linear-gradient(135deg, #ff9a9e, #fad0c4); } /* Rojos/Rosados */
+        .bg-cat-av { background: linear-gradient(135deg, #a1c4fd, #c2e9fb); } /* Azules */
+        .bg-cat-deco { background: linear-gradient(135deg, #84fab0, #8fd3f4); } /* Verdes/Turquesas */
+        .bg-cat-extra { background: linear-gradient(135deg, #fbc2eb, #a6c1ee); } /* Morados */
+
+        .service-title { font-weight: 600; margin-bottom: 0; color: #1a2e22; }
+        .service-desc {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #6c757d;
+            flex-grow: 1; /* Empuja el precio hacia abajo */
+            margin-bottom: 1rem;
+        }
+        .service-price-container {
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .service-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2a8f9c; /* Color destacado para el precio */
+        }
+        .service-unit { font-size: 0.85rem; color: #adb5bd; }
+        
+        .category-header {
+            color: #1a2e22;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(163,161,104,0.3);
+            display: inline-block;
+        }

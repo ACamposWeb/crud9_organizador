@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control de Eventos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- ================= SIDEBAR ================= -->
+        <div class="sidebar" id="sidebar-wrapper">
+            <div class="logo-section p-4 mb-2 text-white text-center">
+                <img src="LogoVPApp.PNG" alt="Logo Vento Planner" class="img-fluid mb-3" style="max-height: 140px; width: auto;">
+                <h5 class="fw-bold mb-0 gradient-text" style="letter-spacing: 1px;">Vento | Planner</h5>
+            </div>
+            <div class="list-group list-group-flush px-2">
+                <a href="index.html" class="list-group-item list-group-item-action active">
+                    <i class="bi bi-house-door me-3"></i>Inicio
+                </a>
+                <a href="eventos.html" class="list-group-item list-group-item-action">
+                    <i class="bi bi-calendar-event me-3"></i>Eventos
+                </a>
+                <a href="reportes.html" class="list-group-item list-group-item-action">
+                    <i class="bi bi-bar-chart-line me-3"></i>Reportes
+                </a>
+                <a href="tipos_eventos.html" class="list-group-item list-group-item-action">
+                    <i class="bi bi-trophy me-3"></i>Tipos de Eventos
+                </a>
+                <a href="servicios.html" class="list-group-item list-group-item-action">
+                    <i class="bi bi-tools me-3"></i>Servicios
+                </a>
+                <a href="configuracion.html" class="list-group-item list-group-item-action mt-3">
+                    <i class="bi bi-gear me-3"></i>Configuración
+                </a>
+            </div>
+        </div>
+
+        <!-- ================= CONTENIDO PRINCIPAL ================= -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3 px-4">
+                <div class="container-fluid justify-content-end">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item me-3">
+                            <a class="nav-link text-white fs-5" href="#"><i class="bi bi-bell"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <img src="usuario.png" alt="Perfil" class="rounded-circle border border-2 border-white" width="40" height="40">
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 px-md-5 pt-2">
+                <div class="mb-5 text-white">
+                    <h2 class="fw-bold">Panel de Control de Eventos</h2>
+                    <p class="text-white-50" style="font-size: 0.9rem;">Dashboard de eventos</p>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <!-- Tarjeta 1: Tabla Próximos Eventos — conectada al app.js -->
+                    <div class="col-xl-6 col-lg-12">
+                        <div class="glass-card h-100">
+                            <h5 class="text-white mb-4 fw-semibold">Próximos Eventos</h5>
+                            <div class="table-responsive">
+                                <table class="table custom-table text-white align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- ✅ ID conectado al app.js -->
+                                    <tbody id="tablaEventos">
+                                        <!-- Se llena dinámicamente con app.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div id="sinEventos" class="text-white-50 text-center py-3" style="display:none;">
+                                No hay eventos registrados aún.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 2: Resumen de Tipos — IDs conectados al app.js -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card h-100 text-center">
+                            <h5 class="text-white mb-4 text-start fw-semibold">Resumen de Tipos</h5>
+                            <div class="row g-3 mt-2">
+                                <div class="col-6 mb-3">
+                                    <i class="bi bi-gem fs-2 icon-gold mb-2 d-block"></i>
+                                    <!-- ✅ ID conectado -->
+                                    <h3 class="text-white fw-bold mb-0" id="totalBodas">0</h3>
+                                    <small class="fw-bold">Bodas</small>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <i class="bi bi-cake2 fs-2 icon-purple mb-2 d-block"></i>
+                                    <!-- ✅ ID conectado -->
+                                    <h3 class="text-white fw-bold mb-0" id="totalQuince">0</h3>
+                                    <small class="fw-bold">Quinceaños</small>
+                                </div>
+                                <div class="col-6">
+                                    <i class="bi bi-gift fs-2 icon-purple mb-2 d-block"></i>
+                                    <!-- ✅ ID conectado -->
+                                    <h3 class="text-white fw-bold mb-0" id="totalCumple">0</h3>
+                                    <small class="fw-bold">Cumpleaños</small>
+                                </div>
+                                <div class="col-6">
+                                    <i class="bi bi-balloon-heart fs-2 icon-purple mb-2 d-block"></i>
+                                    <!-- ✅ ID conectado -->
+                                    <h3 class="text-white fw-bold mb-0" id="totalBaby">0</h3>
+                                    <small class="fw-bold">Babyshower</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta 3: Accesos Rápidos -->
+                    <div class="col-xl-3 col-md-6">
+                        <div class="glass-card h-100">
+                            <h5 class="text-white mb-4 fw-semibold">Accesos Rápidos</h5>
+                            <div class="d-grid gap-3">
+                                <a href="nuevo_evento.html" class="btn btn-gold py-2 fw-semibold">
+                                    <i class="bi bi-plus-lg me-2"></i>Nuevo Evento
+                                </a>
+                                <a href="reportes.html" class="btn btn-dark-glass py-2 fw-semibold">
+                                    <i class="bi bi-bar-chart-line me-2"></i>Ver Reportes
+                                </a>
+                                <a href="servicios.html" class="btn btn-dark-glass py-2 fw-semibold">
+                                    <i class="bi bi-tools me-2"></i>Gestionar Servicios
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicios Destacados -->
+                <div class="mb-5">
+                    <h5 class="text-white mb-4 fw-semibold">Servicios Destacados</h5>
+                    <div class="row g-4">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-card glass-card p-0 overflow-hidden">
+                                <img src="imagenes/buffet.png" alt="Buffet" class="img-fluid w-100">
+                                <div class="service-overlay">
+                                    <h6 class="text-white-50 mb-0 fw-semibold">Buffet Premium</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-card glass-card p-0 overflow-hidden">
+                                <img src="imagenes/decoracion.png" alt="Decoración" class="img-fluid w-100">
+                                <div class="service-overlay">
+                                    <h6 class="text-white-50 mb-0 fw-semibold">Decoración Personalizada</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="service-card glass-card p-0 overflow-hidden">
+                                <img src="imagenes/fotografia.png" alt="Fotografía" class="img-fluid w-100">
+                                <div class="service-overlay">
+                                    <h6 class="text-white-50 mb-0 fw-semibold">Fotografía Profesional</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ✅ Script conectado -->
+    <script src="app.js"></script>
+</body>
+</html>
