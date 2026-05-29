@@ -1,18 +1,18 @@
 // ===============================
-// 📦 VARIABLES GLOBALES
+//  VARIABLES GLOBALES
 // ===============================
 let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
 let indexEliminar = null;
 
 // ===============================
-// 💾 GUARDAR EN LOCALSTORAGE
+//  GUARDAR EN LOCALSTORAGE
 // ===============================
 function guardarEventos() {
     localStorage.setItem("eventos", JSON.stringify(eventos));
 }
 
 // ===============================
-// 🎨 BADGE por tipo
+//  BADGE por tipo
 // ===============================
 function badgeTipo(tipo) {
     const map = {
@@ -37,10 +37,10 @@ function badgeEstado(estado) {
 }
 
 // ===============================
-// 📊 DASHBOARD — index.html
+//  DASHBOARD — index.html
 // ===============================
 function mostrarEventosDashboard() {
-    const tabla = document.getElementById("tablaEventos");
+const tabla = document.getElementById("tablaEventos");
     const sinEventos = document.getElementById("sinEventos");
     if (!tabla) return;
 
@@ -69,7 +69,7 @@ function mostrarEventosDashboard() {
 }
 
 // ===============================
-// 📋 TABLA COMPLETA — eventos.html
+//  TABLA COMPLETA — eventos.html
 // ===============================
 function mostrarEventosTabla(lista = eventos) {
     const tabla = document.getElementById("tablaEventos");
@@ -105,7 +105,7 @@ function mostrarEventosTabla(lista = eventos) {
 }
 
 // ===============================
-// 📈 RESUMEN — Dashboard
+//  RESUMEN — Dashboard
 // ===============================
 function actualizarResumen() {
     let bodas = 0, cumple = 0, quince = 0, baby = 0;
@@ -123,7 +123,7 @@ function actualizarResumen() {
 }
 
 // ===============================
-// ➕ AGREGAR EVENTO — nuevo_evento.html
+//  AGREGAR EVENTO — nuevo_evento.html
 // ===============================
 function agregarEvento() {
     // Campos obligatorios
@@ -168,7 +168,7 @@ function agregarEvento() {
 
     // Validar fecha no pasada
     const hoy = new Date().toISOString().split("T")[0];
-    if (fecha.value < hoy) {
+    if (fecha.value < hoy && fecha.value !== hoy) {
         fecha.classList.add("is-invalid");
         mostrarAlerta("No puedes registrar eventos en fechas pasadas.", "danger");
         return;
@@ -238,7 +238,7 @@ function agregarEvento() {
 }
 
 // ===============================
-// 💾 GUARDAR BORRADOR
+//  GUARDAR BORRADOR
 // ===============================
 function guardarBorrador() {
     const nombre = document.getElementById("nombre")?.value.trim();
@@ -256,7 +256,7 @@ function guardarBorrador() {
 }
 
 // ===============================
-// ❌ CONFIRMAR + ELIMINAR
+//  CONFIRMAR + ELIMINAR
 // ===============================
 function confirmarEliminar(index) {
     indexEliminar = index;
@@ -287,7 +287,7 @@ function editarEvento(index) {
 }
 
 // ===============================
-// 👁️ VER DETALLE
+//  VER DETALLE
 // ===============================
 function verEvento(index) {
     const ev = eventos[index];
@@ -298,7 +298,7 @@ function verEvento(index) {
 }
 
 // ===============================
-// 🔍 FILTROS — eventos.html
+//  FILTROS — eventos.html
 // ===============================
 function aplicarFiltros() {
     const texto = (document.getElementById("buscador")?.value || "").toLowerCase();
@@ -315,7 +315,7 @@ function aplicarFiltros() {
 }
 
 // ===============================
-// 💬 ALERTA UX
+//  ALERTA UX
 // ===============================
 function mostrarAlerta(msg, tipo = "success") {
     const toast   = document.getElementById("alertaToast");
@@ -343,7 +343,7 @@ function ocultarAlerta() {
 }
 
 // ===============================
-// 🚀 INICIALIZAR
+//  INICIALIZAR
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Recoger todos los datos del formulario (reutilizable para editar)
+// Recoger todos los datos del formulario 
 function recogerDatos() {
     const servicios = [];
     document.querySelectorAll('.servicio-check-card input:checked').forEach(cb => servicios.push(cb.value));
@@ -459,5 +459,47 @@ function recogerDatos() {
         menuNotas: document.getElementById("menuNotas")?.value,
         servicios,
         notas:     document.getElementById("notas")?.value
+    };
+}
+
+// ===============================
+//  WEB WORKER — Métricas Dashboard
+// ===============================
+function iniciarWorkerMetricas() {
+    if (!window.Worker) {
+        console.warn("Web Workers no soportados en este navegador.");
+        return;
+    }
+
+    const worker = new Worker("dashboard.worker.js");
+
+    // Envía los datos al worker
+    worker.postMessage(eventos);
+
+    // Recibe el resultado procesado
+    worker.onmessage = function (e) {
+        const m = e.data;
+
+        const set = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = val;
+        };
+
+        set("metricaTotal",       m.total);
+        set("metricaConfirmados", m.confirmados);
+        set("metricaPendientes",  m.pendientes);
+        set("metricaFinalizados", m.finalizados);
+        set("metricaProximos",    m.proximos);
+        set("metricaEnProceso",   m.enProceso);
+
+        const status = document.getElementById("workerStatus");
+        if (status) status.textContent =
+            `Métricas actualizadas por Web Worker · ${m.total} eventos procesados`;
+
+        worker.terminate(); // Cierra el worker al terminar
+    };
+
+    worker.onerror = function (err) {
+        console.error("Error en Web Worker:", err.message);
     };
 }
