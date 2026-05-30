@@ -40,7 +40,7 @@ function badgeEstado(estado) {
 //  DASHBOARD — index.html
 // ===============================
 function mostrarEventosDashboard() {
-const tabla = document.getElementById("tablaEventos");
+    const tabla = document.getElementById("tablaEventos");
     const sinEventos = document.getElementById("sinEventos");
     if (!tabla) return;
 
@@ -126,12 +126,11 @@ function actualizarResumen() {
 //  AGREGAR EVENTO — nuevo_evento.html
 // ===============================
 function agregarEvento() {
-    // Campos obligatorios
-    const nombre  = document.getElementById("nombre");
-    const fecha   = document.getElementById("fecha");
-    const tipo    = document.getElementById("tipo");
-    const lugar   = document.getElementById("lugar");
-    const invitados = document.getElementById("invitados");
+    const nombre        = document.getElementById("nombre");
+    const fecha         = document.getElementById("fecha");
+    const tipo          = document.getElementById("tipo");
+    const lugar         = document.getElementById("lugar");
+    const invitados     = document.getElementById("invitados");
     const clienteNombre = document.getElementById("clienteNombre");
     const clienteTel    = document.getElementById("clienteTel");
 
@@ -145,13 +144,13 @@ function agregarEvento() {
     // Validar campos obligatorios
     let valido = true;
     const requeridos = [
-        { el: nombre,        msg: "nombre" },
-        { el: fecha,         msg: "fecha" },
-        { el: tipo,          msg: "tipo" },
-        { el: lugar,         msg: "lugar" },
-        { el: invitados,     msg: "invitados" },
-        { el: clienteNombre, msg: "cliente" },
-        { el: clienteTel,    msg: "teléfono" }
+        { el: nombre        },
+        { el: fecha         },
+        { el: tipo          },
+        { el: lugar         },
+        { el: invitados     },
+        { el: clienteNombre },
+        { el: clienteTel    }
     ];
 
     requeridos.forEach(({ el }) => {
@@ -198,7 +197,6 @@ function agregarEvento() {
         lugar:        lugar.value.trim(),
         invitados:    invitados.value,
         estado:       document.getElementById("estado")?.value || "Pendiente",
-        // Cliente
         cliente: {
             nombre:    clienteNombre.value.trim(),
             dui:       document.getElementById("clienteDui")?.value || "",
@@ -207,20 +205,16 @@ function agregarEvento() {
             email:     document.getElementById("clienteEmail")?.value || "",
             direccion: document.getElementById("clienteDireccion")?.value || ""
         },
-        // Paquete
         paquete:    paqueteEl?.dataset.paquete || "Básico",
         precioPP:   parseFloat(document.getElementById("precioPP")?.value) || 0,
         anticipo:   parseFloat(document.getElementById("anticipo")?.value) || 0,
         formaPago:  document.getElementById("formaPago")?.value || "Efectivo",
-        // Buffet
         buffet:       document.getElementById("buffet")?.value || "Sin buffet",
         tiempos:      document.getElementById("tiempos")?.value || "1 tiempo",
         menuNotas:    document.getElementById("menuNotas")?.value || "",
         restricciones: restricciones,
-        // Servicios y notas
         servicios: servicios,
         notas:     document.getElementById("notas")?.value || "",
-        // Meta
         fechaRegistro: new Date().toISOString(),
         id: Date.now()
     };
@@ -230,7 +224,6 @@ function agregarEvento() {
 
     mostrarAlerta("¡Evento creado correctamente! Redirigiendo...", "success");
 
-    // Deshabilitar botón para evitar doble clic
     const btn = document.getElementById("btnAgregar");
     if (btn) { btn.disabled = true; btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Guardado'; }
 
@@ -242,14 +235,16 @@ function agregarEvento() {
 // ===============================
 function guardarBorrador() {
     const nombre = document.getElementById("nombre")?.value.trim();
-    if (!nombre) { mostrarAlerta("Escribe al menos el nombre del evento para guardar el borrador.", "warning"); return; }
-
+    if (!nombre) {
+        mostrarAlerta("Escribe al menos el nombre del evento para guardar el borrador.", "warning");
+        return;
+    }
     const borrador = {
         nombre,
-        fecha:   document.getElementById("fecha")?.value || "",
-        tipo:    document.getElementById("tipo")?.value || "",
-        lugar:   document.getElementById("lugar")?.value || "",
-        notas:   document.getElementById("notas")?.value || ""
+        fecha:  document.getElementById("fecha")?.value || "",
+        tipo:   document.getElementById("tipo")?.value || "",
+        lugar:  document.getElementById("lugar")?.value || "",
+        notas:  document.getElementById("notas")?.value || ""
     };
     sessionStorage.setItem("borrador_evento", JSON.stringify(borrador));
     mostrarAlerta("Borrador guardado en sesión.", "info");
@@ -279,7 +274,7 @@ function eliminarEvento() {
 }
 
 // ===============================
-// ✏️ EDITAR
+//  EDITAR
 // ===============================
 function editarEvento(index) {
     sessionStorage.setItem("editarEvento", JSON.stringify({ ...eventos[index], index }));
@@ -318,8 +313,8 @@ function aplicarFiltros() {
 //  ALERTA UX
 // ===============================
 function mostrarAlerta(msg, tipo = "success") {
-    const toast   = document.getElementById("alertaToast");
-    const msgEl   = document.getElementById("alertaMsg");
+    const toast = document.getElementById("alertaToast");
+    const msgEl = document.getElementById("alertaMsg");
     if (!toast || !msgEl) return;
 
     const colores = {
@@ -347,18 +342,19 @@ function ocultarAlerta() {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ── Dashboard ──
+    // ── Dashboard (index.html) ──
     mostrarEventosDashboard();
     actualizarResumen();
+    iniciarWorkerMetricas();
 
-    // ── Tabla eventos ──
+    // ── Tabla eventos (eventos.html) ──
     mostrarEventosTabla();
     document.getElementById("buscador")?.addEventListener("input",  aplicarFiltros);
     document.getElementById("filtroTipo")?.addEventListener("change", aplicarFiltros);
     document.getElementById("filtroFecha")?.addEventListener("change", aplicarFiltros);
     document.getElementById("btnConfirmarEliminar")?.addEventListener("click", eliminarEvento);
 
-    // ── Nuevo Evento ──
+    // ── Nuevo Evento (nuevo_evento.html) ──
     document.getElementById("btnAgregar")?.addEventListener("click", agregarEvento);
     document.getElementById("btnBorrador")?.addEventListener("click", guardarBorrador);
 
@@ -368,32 +364,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const ev = JSON.parse(editData);
         sessionStorage.removeItem("editarEvento");
 
-        // Cargar campos básicos
         const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
-        set("nombre",    ev.nombre);
-        set("fecha",     ev.fecha);
-        set("tipo",      ev.tipo);
-        set("horaInicio", ev.horaInicio);
-        set("horaFin",   ev.horaFin);
-        set("lugar",     ev.lugar);
-        set("invitados", ev.invitados);
-        set("estado",    ev.estado);
-        // Cliente
+        set("nombre",           ev.nombre);
+        set("fecha",            ev.fecha);
+        set("tipo",             ev.tipo);
+        set("horaInicio",       ev.horaInicio);
+        set("horaFin",          ev.horaFin);
+        set("lugar",            ev.lugar);
+        set("invitados",        ev.invitados);
+        set("estado",           ev.estado);
         set("clienteNombre",    ev.cliente?.nombre);
         set("clienteDui",       ev.cliente?.dui);
         set("clienteTel",       ev.cliente?.telefono);
         set("clienteWa",        ev.cliente?.whatsapp);
         set("clienteEmail",     ev.cliente?.email);
         set("clienteDireccion", ev.cliente?.direccion);
-        // Paquete y pagos
-        set("precioPP",  ev.precioPP);
-        set("anticipo",  ev.anticipo);
-        set("formaPago", ev.formaPago);
-        // Buffet
-        set("buffet",    ev.buffet);
-        set("tiempos",   ev.tiempos);
-        set("menuNotas", ev.menuNotas);
-        set("notas",     ev.notas);
+        set("precioPP",         ev.precioPP);
+        set("anticipo",         ev.anticipo);
+        set("formaPago",        ev.formaPago);
+        set("buffet",           ev.buffet);
+        set("tiempos",          ev.tiempos);
+        set("menuNotas",        ev.menuNotas);
+        set("notas",            ev.notas);
 
         // Paquete card
         document.querySelectorAll('.paquete-card').forEach(c => {
@@ -428,7 +420,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Recoger todos los datos del formulario 
+// ===============================
+//  RECOGER DATOS DEL FORMULARIO
+// ===============================
 function recogerDatos() {
     const servicios = [];
     document.querySelectorAll('.servicio-check-card input:checked').forEach(cb => servicios.push(cb.value));
@@ -471,12 +465,10 @@ function iniciarWorkerMetricas() {
         return;
     }
 
-    const worker = new Worker("dashboard.worker.js");
+    const worker = new Worker("dashboardWorker.js");
 
-    // Envía los datos al worker
     worker.postMessage(eventos);
 
-    // Recibe el resultado procesado
     worker.onmessage = function (e) {
         const m = e.data;
 
@@ -494,9 +486,9 @@ function iniciarWorkerMetricas() {
 
         const status = document.getElementById("workerStatus");
         if (status) status.textContent =
-            `Métricas actualizadas por Web Worker · ${m.total} eventos procesados`;
+            `Métricas actualizadas · ${m.total} eventos procesados`;
 
-        worker.terminate(); // Cierra el worker al terminar
+        worker.terminate();
     };
 
     worker.onerror = function (err) {
