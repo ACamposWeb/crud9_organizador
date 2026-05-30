@@ -9,297 +9,145 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== TEMA CLARO PARA NUEVO EVENTO ===== */
         body {
-            background: linear-gradient(135deg,
-                #e8f4f8 0%,
-                #f0e8f8 25%,
-                #e8f8f0 50%,
-                #f8f0e8 75%,
-                #e8eef8 100%);
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0e8f8 25%, #e8f8f0 50%, #f8f0e8 75%, #e8eef8 100%);
             background-attachment: fixed;
             min-height: 100vh;
         }
-
-        /* Sidebar igual que el oscuro */
-        .sidebar {
-            background: linear-gradient(180deg, #1a2e22 0%, #0f1f17 100%);
-        }
-
-        /* Navbar claro */
+        .sidebar { background: linear-gradient(180deg, #1a2e22 0%, #0f1f17 100%); }
         #page-content-wrapper .navbar {
             background: rgba(255,255,255,0.6) !important;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.8);
         }
-
-        /* Títulos oscuros */
         .page-title { color: #1a2e22; }
         .page-subtitle { color: #6c757d; }
-
-        /* Cards claras */
         .card-light {
             background: rgba(255,255,255,0.65);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255,255,255,0.9);
             border-radius: 18px;
             padding: 1.8rem;
             box-shadow: 0 8px 32px rgba(31,38,135,0.08);
             margin-bottom: 1.5rem;
         }
-
-        /* Encabezado de sección */
         .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.8rem;
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
             border-bottom: 2px solid rgba(163,161,104,0.3);
         }
         .section-icon {
-            width: 42px; height: 42px;
-            border-radius: 12px;
+            width: 42px; height: 42px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            color: #fff;
-            flex-shrink: 0;
+            font-size: 1.2rem; color: #fff; flex-shrink: 0;
         }
-        .section-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1a2e22;
-            margin: 0;
-        }
-        .section-subtitle {
-            font-size: 0.75rem;
-            color: #6c757d;
-            margin: 0;
-        }
-
-        /* Inputs claros */
+        .section-title { font-size: 1rem; font-weight: 600; color: #1a2e22; margin: 0; }
+        .section-subtitle { font-size: 0.75rem; color: #6c757d; margin: 0; }
         .form-label-light {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #495057;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.4rem;
+            font-size: 0.8rem; font-weight: 600; color: #495057;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
         }
         .form-control-light, .form-select-light {
             background: rgba(255,255,255,0.8);
             border: 1.5px solid rgba(163,161,104,0.3);
-            border-radius: 10px;
-            color: #212529;
+            border-radius: 10px; color: #212529;
             padding: 0.6rem 1rem;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif; font-size: 0.9rem;
             transition: all 0.3s;
         }
         .form-control-light:focus, .form-select-light:focus {
-            background: #fff;
-            border-color: #a3a168;
-            box-shadow: 0 0 0 0.2rem rgba(163,161,104,0.2);
-            color: #212529;
+            background: #fff; border-color: #a3a168;
+            box-shadow: 0 0 0 0.2rem rgba(163,161,104,0.2); color: #212529;
         }
         .form-control-light::placeholder { color: #adb5bd; }
+        .form-control-light.is-invalid { border-color: #dc3545 !important; }
 
-        /* Servicio check cards */
         .servicio-check-card {
             background: rgba(255,255,255,0.7);
             border: 2px solid rgba(163,161,104,0.2);
-            border-radius: 14px;
-            padding: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            height: 100%;
+            border-radius: 14px; padding: 1rem; cursor: pointer;
+            transition: all 0.3s; height: 100%;
         }
-        .servicio-check-card:hover {
-            border-color: #a3a168;
-            background: rgba(255,255,255,0.95);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(163,161,104,0.2);
-        }
-        .servicio-check-card.selected {
-            border-color: #a3a168;
-            background: rgba(163,161,104,0.1);
-        }
-        .servicio-check-card .form-check-input:checked {
-            background-color: #a3a168;
-            border-color: #a3a168;
-        }
-        .servicio-icon-sm {
-            width: 40px; height: 40px;
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-        .servicio-label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #1a2e22;
-            margin-bottom: 0.2rem;
-        }
-        .servicio-desc {
-            font-size: 0.72rem;
-            color: #6c757d;
-        }
+        .servicio-check-card:hover { border-color: #a3a168; background: rgba(255,255,255,0.95); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(163,161,104,0.2); }
+        .servicio-check-card.selected { border-color: #a3a168; background: rgba(163,161,104,0.1); }
+        .servicio-icon-sm { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; }
+        .servicio-label { font-size: 0.85rem; font-weight: 600; color: #1a2e22; margin-bottom: 0.2rem; }
+        .servicio-desc { font-size: 0.72rem; color: #6c757d; }
 
-        /* Paquete cards */
         .paquete-card {
-            background: rgba(255,255,255,0.7);
-            border: 2px solid rgba(163,161,104,0.2);
-            border-radius: 14px;
-            padding: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
+            background: rgba(255,255,255,0.7); border: 2px solid rgba(163,161,104,0.2);
+            border-radius: 14px; padding: 1.2rem; cursor: pointer;
+            transition: all 0.3s; text-align: center;
         }
         .paquete-card:hover, .paquete-card.selected {
-            border-color: #a3a168;
-            background: rgba(163,161,104,0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(163,161,104,0.25);
+            border-color: #a3a168; background: rgba(163,161,104,0.1);
+            transform: translateY(-3px); box-shadow: 0 8px 24px rgba(163,161,104,0.25);
         }
-        .paquete-price {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1a2e22;
-        }
-        .paquete-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #495057;
-        }
-        .paquete-features {
-            font-size: 0.75rem;
-            color: #6c757d;
-            margin-top: 0.5rem;
-        }
+        .paquete-price { font-size: 1.4rem; font-weight: 700; color: #1a2e22; }
+        .paquete-name { font-size: 0.9rem; font-weight: 600; color: #495057; }
+        .paquete-features { font-size: 0.75rem; color: #6c757d; margin-top: 0.5rem; }
 
-        /* Botones */
         .btn-primary-light {
-            background: linear-gradient(135deg, #1a2e22, #2a4a35);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            padding: 0.7rem 2rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #1a2e22, #2a4a35); color: #fff;
+            border: none; border-radius: 12px; padding: 0.7rem 2rem;
+            font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
         }
-        .btn-primary-light:hover {
-            background: linear-gradient(135deg, #2a4a35, #3a6a4a);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26,46,34,0.3);
-        }
+        .btn-primary-light:hover { background: linear-gradient(135deg, #2a4a35, #3a6a4a); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,46,34,0.3); }
         .btn-outline-light-custom {
-            background: rgba(255,255,255,0.7);
-            color: #495057;
-            border: 1.5px solid rgba(163,161,104,0.4);
-            border-radius: 12px;
-            padding: 0.7rem 2rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            background: rgba(255,255,255,0.7); color: #495057;
+            border: 1.5px solid rgba(163,161,104,0.4); border-radius: 12px;
+            padding: 0.7rem 2rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
         }
-        .btn-outline-light-custom:hover {
-            background: rgba(255,255,255,0.95);
-            border-color: #a3a168;
-            color: #1a2e22;
-        }
+        .btn-outline-light-custom:hover { background: rgba(255,255,255,0.95); border-color: #a3a168; color: #1a2e22; }
         .btn-gold-light {
-            background: linear-gradient(135deg, #a3a168, #d4c97a);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            padding: 0.7rem 2rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #a3a168, #d4c97a); color: #fff;
+            border: none; border-radius: 12px; padding: 0.7rem 2rem;
+            font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
         }
-        .btn-gold-light:hover {
-            background: linear-gradient(135deg, #d4c97a, #a3a168);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(163,161,104,0.4);
-        }
+        .btn-gold-light:hover { background: linear-gradient(135deg, #d4c97a, #a3a168); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(163,161,104,0.4); }
+        .btn-gold-light:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
 
-        /* Resumen lateral */
         .resumen-card {
             background: linear-gradient(135deg, #1a2e22, #0f1f17);
-            border-radius: 18px;
-            padding: 1.8rem;
-            color: #fff;
-            position: sticky;
-            top: 20px;
+            border-radius: 18px; padding: 1.8rem; color: #fff;
+            position: sticky; top: 20px;
         }
         .resumen-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            font-size: 0.85rem;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem;
         }
         .resumen-item:last-child { border-bottom: none; }
         .resumen-label { color: rgba(255,255,255,0.6); }
         .resumen-value { color: #fff; font-weight: 600; }
-        .resumen-total {
-            background: rgba(163,161,104,0.2);
-            border-radius: 10px;
-            padding: 0.8rem 1rem;
-            margin-top: 1rem;
-        }
-
-        /* Badge de paso */
-        .step-badge {
-            width: 28px; height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #a3a168, #d4c97a);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* Textarea */
+        .resumen-total { background: rgba(163,161,104,0.2); border-radius: 10px; padding: 0.8rem 1rem; margin-top: 1rem; }
+        .step-badge { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #a3a168, #d4c97a); color: #fff; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         textarea.form-control-light { resize: vertical; min-height: 100px; }
+        .input-group-light .input-group-text { background: rgba(255,255,255,0.8); border: 1.5px solid rgba(163,161,104,0.3); border-right: none; color: #6c757d; border-radius: 10px 0 0 10px; }
+        .input-group-light .form-control-light { border-left: none; border-radius: 0 10px 10px 0; }
 
-        /* Input group */
-        .input-group-light .input-group-text {
-            background: rgba(255,255,255,0.8);
-            border: 1.5px solid rgba(163,161,104,0.3);
-            border-right: none;
-            color: #6c757d;
-            border-radius: 10px 0 0 10px;
-        }
-        .input-group-light .form-control-light {
-            border-left: none;
-            border-radius: 0 10px 10px 0;
-        }
+        /* Checklist progreso */
+        .check-step i.bi-check-circle-fill { color: #8aad3f; }
+        .check-step i.bi-circle { color: rgba(255,255,255,0.3); }
+
+        /* Toast alerta */
+        #alertaToast { position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 280px; }
     </style>
 </head>
 <body>
 <div class="d-flex" id="wrapper">
 
-    <!-- SIDEBAR (igual que las demás páginas) -->
+    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar-wrapper">
         <div class="logo-section p-4 mb-2 text-white text-center">
             <img src="LogoVP.png" alt="Logo" class="img-fluid mb-3 sidebar-logo-img" style="max-height: 140px; width: auto;">
             <h5 class="fw-bold mb-0 gradient-text" style="letter-spacing: 1px; font-size: 1.5rem;">Vento Planner</h5>
         </div>
         <div class="list-group list-group-flush px-2">
-            <a href="index.html" class="list-group-item list-group-item-action"><i class="bi bi-house-door me-3"></i>Inicio</a>
-            <a href="eventos.html" class="list-group-item list-group-item-action active"><i class="bi bi-calendar-event me-3"></i>Eventos</a>
-            <a href="reportes.html" class="list-group-item list-group-item-action"><i class="bi bi-bar-chart-line me-3"></i>Reportes</a>
-            <a href="tipos-eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-trophy me-3"></i>Tipos de Eventos</a>
-            <a href="servicios.html" class="list-group-item list-group-item-action"><i class="bi bi-tools me-3"></i>Servicios</a>
+            <a href="index.html"         class="list-group-item list-group-item-action"><i class="bi bi-house-door me-3"></i>Inicio</a>
+            <a href="eventos.html"       class="list-group-item list-group-item-action active"><i class="bi bi-calendar-event me-3"></i>Eventos</a>
+            <a href="reportes.html"      class="list-group-item list-group-item-action"><i class="bi bi-bar-chart-line me-3"></i>Reportes</a>
+            <a href="tipos_eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-trophy me-3"></i>Tipos de Eventos</a>
+            <a href="servicios.html"     class="list-group-item list-group-item-action"><i class="bi bi-tools me-3"></i>Servicios</a>
             <a href="configuracion.html" class="list-group-item list-group-item-action mt-3"><i class="bi bi-gear me-3"></i>Configuración</a>
         </div>
     </div>
@@ -315,30 +163,34 @@
                         <i class="bi bi-arrow-left me-1"></i> Volver
                     </a>
                     <div>
-                        <h6 class="mb-0 fw-bold page-title">Nuevo Evento</h6>
+                        <h6 class="mb-0 fw-bold page-title" id="tituloFormulario">Nuevo Evento</h6>
                         <small class="page-subtitle">Completa los datos para registrar el evento</small>
                     </div>
                 </div>
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item me-3">
-                        <a class="nav-link fs-5" href="#" style="color: #1a2e22;">
-                            <i class="bi bi-bell"></i>
-                        </a>
+                        <a class="nav-link fs-5" href="#" style="color: #1a2e22;"><i class="bi bi-bell"></i></a>
                     </li>
                     <li class="nav-item">
-                        <img src="https://i.pravatar.cc/150?img=47" alt="Perfil"
-                             class="rounded-circle border border-2" width="40" height="40"
-                             style="border-color: #a3a168 !important;">
+                        <img src="usuario.png" alt="Perfil" class="rounded-circle border border-2" width="40" height="40" style="border-color: #a3a168 !important;">
                     </li>
                 </ul>
             </div>
         </nav>
 
+        <!-- Toast de alerta -->
+        <div id="alertaToast" class="toast align-items-center border-0" role="alert" style="display:none;">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold" id="alertaMsg"></div>
+                <button type="button" class="btn-close me-2 m-auto" onclick="ocultarAlerta()"></button>
+            </div>
+        </div>
+
         <!-- FORMULARIO -->
         <div class="container-fluid px-4 pt-2 pb-5">
             <div class="row g-4">
 
-                <!-- COLUMNA PRINCIPAL (formulario) -->
+                <!-- COLUMNA PRINCIPAL -->
                 <div class="col-xl-8">
 
                     <!-- 1. Información General -->
@@ -355,48 +207,54 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-8">
-                                <label class="form-label-light">Nombre del Evento *</label>
-                                <input type="text" class="form-control-light w-100" placeholder="Ej: Boda García - Martínez">
+                                <label class="form-label-light" for="nombre">Nombre del Evento *</label>
+                                <!-- ✅ id="nombre" -->
+                                <input type="text" id="nombre" class="form-control-light w-100" placeholder="Ej: Boda García - Martínez">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Tipo de Evento *</label>
-                                <select class="form-select-light w-100">
+                                <label class="form-label-light" for="tipo">Tipo de Evento *</label>
+                                <!-- ✅ id="tipo" -->
+                                <select id="tipo" class="form-select-light w-100">
                                     <option value="">Seleccionar...</option>
-                                    <option>🌹 Boda</option>
-                                    <option>👑 Quinceaños</option>
-                                    <option>🎂 Cumpleaños</option>
-                                    <option>👶 Baby Shower</option>
-                                    <option>🎓 Graduación</option>
-                                    <option>💼 Corporativo</option>
+                                    <option value="Bodas">🌹 Boda</option>
+                                    <option value="Quinceaños">👑 Quinceaños</option>
+                                    <option value="Cumpleaños">🎂 Cumpleaños</option>
+                                    <option value="Babyshower">👶 Baby Shower</option>
+                                    <option value="Graduación">🎓 Graduación</option>
+                                    <option value="Corporativo">💼 Corporativo</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Fecha del Evento *</label>
-                                <input type="date" class="form-control-light w-100">
+                                <label class="form-label-light" for="fecha">Fecha del Evento *</label>
+                                <!-- ✅ id="fecha" -->
+                                <input type="date" id="fecha" class="form-control-light w-100">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Hora de Inicio</label>
-                                <input type="time" class="form-control-light w-100">
+                                <label class="form-label-light" for="horaInicio">Hora de Inicio</label>
+                                <input type="time" id="horaInicio" class="form-control-light w-100">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Hora de Fin</label>
-                                <input type="time" class="form-control-light w-100">
+                                <label class="form-label-light" for="horaFin">Hora de Fin</label>
+                                <input type="time" id="horaFin" class="form-control-light w-100">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label-light">Lugar / Salón *</label>
-                                <input type="text" class="form-control-light w-100" placeholder="Nombre del salón o dirección">
+                                <label class="form-label-light" for="lugar">Lugar / Salón *</label>
+                                <!-- ✅ id="lugar" -->
+                                <input type="text" id="lugar" class="form-control-light w-100" placeholder="Nombre del salón o dirección">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label-light">N° de Invitados *</label>
-                                <input type="number" class="form-control-light w-100" placeholder="0" min="1">
+                                <label class="form-label-light" for="invitados">N° de Invitados *</label>
+                                <!-- ✅ id="invitados" -->
+                                <input type="number" id="invitados" class="form-control-light w-100" placeholder="0" min="1">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label-light">Estado</label>
-                                <select class="form-select-light w-100">
-                                    <option>Pendiente</option>
-                                    <option>Confirmado</option>
-                                    <option>En proceso</option>
-                                    <option>Finalizado</option>
+                                <label class="form-label-light" for="estado">Estado</label>
+                                <!-- ✅ id="estado" -->
+                                <select id="estado" class="form-select-light w-100">
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Confirmado">Confirmado</option>
+                                    <option value="En proceso">En proceso</option>
+                                    <option value="Finalizado">Finalizado</option>
                                 </select>
                             </div>
                         </div>
@@ -416,34 +274,36 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label-light">Nombre Completo *</label>
-                                <input type="text" class="form-control-light w-100" placeholder="Nombre y apellidos">
+                                <label class="form-label-light" for="clienteNombre">Nombre Completo *</label>
+                                <!-- ✅ id="clienteNombre" -->
+                                <input type="text" id="clienteNombre" class="form-control-light w-100" placeholder="Nombre y apellidos">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label-light">DUI / Identificación</label>
-                                <input type="text" class="form-control-light w-100" placeholder="00000000-0">
+                                <label class="form-label-light" for="clienteDui">DUI / Identificación</label>
+                                <input type="text" id="clienteDui" class="form-control-light w-100" placeholder="00000000-0">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Teléfono *</label>
+                                <label class="form-label-light" for="clienteTel">Teléfono *</label>
                                 <div class="input-group input-group-light">
                                     <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                    <input type="tel" class="form-control-light" placeholder="0000-0000">
+                                    <!-- ✅ id="clienteTel" -->
+                                    <input type="tel" id="clienteTel" class="form-control-light" placeholder="0000-0000">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">WhatsApp</label>
+                                <label class="form-label-light" for="clienteWa">WhatsApp</label>
                                 <div class="input-group input-group-light">
                                     <span class="input-group-text"><i class="bi bi-whatsapp"></i></span>
-                                    <input type="tel" class="form-control-light" placeholder="0000-0000">
+                                    <input type="tel" id="clienteWa" class="form-control-light" placeholder="0000-0000">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Correo Electrónico</label>
-                                <input type="email" class="form-control-light w-100" placeholder="correo@ejemplo.com">
+                                <label class="form-label-light" for="clienteEmail">Correo Electrónico</label>
+                                <input type="email" id="clienteEmail" class="form-control-light w-100" placeholder="correo@ejemplo.com">
                             </div>
                             <div class="col-12">
-                                <label class="form-label-light">Dirección</label>
-                                <input type="text" class="form-control-light w-100" placeholder="Dirección completa del cliente">
+                                <label class="form-label-light" for="clienteDireccion">Dirección</label>
+                                <input type="text" id="clienteDireccion" class="form-control-light w-100" placeholder="Dirección completa del cliente">
                             </div>
                         </div>
                     </div>
@@ -460,30 +320,31 @@
                                 <p class="section-subtitle">Elige el paquete base para el evento</p>
                             </div>
                         </div>
-                        <div class="row g-3 mb-3">
+                        <!-- ✅ id="paqueteSeleccionado" en el contenedor -->
+                        <div class="row g-3 mb-3" id="paqueteSeleccionado">
                             <div class="col-md-3">
-                                <div class="paquete-card selected" onclick="selectPaquete(this)">
+                                <div class="paquete-card selected" data-paquete="Básico" data-precio="15" onclick="selectPaquete(this)">
                                     <div class="paquete-name">Básico</div>
                                     <div class="paquete-price">$15</div>
                                     <div class="paquete-features">por persona<br>Salón + Mesas</div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="paquete-card" onclick="selectPaquete(this)">
+                                <div class="paquete-card" data-paquete="Estándar" data-precio="25" onclick="selectPaquete(this)">
                                     <div class="paquete-name">Estándar</div>
                                     <div class="paquete-price">$25</div>
                                     <div class="paquete-features">por persona<br>+ Buffet básico</div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="paquete-card" onclick="selectPaquete(this)">
+                                <div class="paquete-card" data-paquete="Premium" data-precio="45" onclick="selectPaquete(this)">
                                     <div class="paquete-name">Premium</div>
                                     <div class="paquete-price">$45</div>
                                     <div class="paquete-features">por persona<br>+ Todo incluido</div>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="paquete-card" onclick="selectPaquete(this)">
+                                <div class="paquete-card" data-paquete="Personalizado" data-precio="0" onclick="selectPaquete(this)">
                                     <div class="paquete-name">Personalizado</div>
                                     <div class="paquete-price">$--</div>
                                     <div class="paquete-features">A tu medida<br>Elige servicios</div>
@@ -492,16 +353,17 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <label class="form-label-light">Precio por Persona ($)</label>
-                                <input type="number" class="form-control-light w-100" placeholder="0.00" step="0.01">
+                                <label class="form-label-light" for="precioPP">Precio por Persona ($)</label>
+                                <input type="number" id="precioPP" class="form-control-light w-100" placeholder="0.00" step="0.01" min="0">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Anticipo / Depósito ($)</label>
-                                <input type="number" class="form-control-light w-100" placeholder="0.00" step="0.01">
+                                <label class="form-label-light" for="anticipo">Anticipo / Depósito ($)</label>
+                                <!-- ✅ id="anticipo" -->
+                                <input type="number" id="anticipo" class="form-control-light w-100" placeholder="0.00" step="0.01" min="0">
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label-light">Forma de Pago</label>
-                                <select class="form-select-light w-100">
+                                <label class="form-label-light" for="formaPago">Forma de Pago</label>
+                                <select id="formaPago" class="form-select-light w-100">
                                     <option>Efectivo</option>
                                     <option>Transferencia</option>
                                     <option>Tarjeta</option>
@@ -511,7 +373,7 @@
                         </div>
                     </div>
 
-                    <!-- 4. Buffet y Catering -->
+                    <!-- 4. Buffet -->
                     <div class="card-light">
                         <div class="section-header">
                             <div class="step-badge">4</div>
@@ -525,18 +387,19 @@
                         </div>
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label-light">Tipo de Buffet</label>
-                                <select class="form-select-light w-100">
-                                    <option>Sin buffet</option>
-                                    <option>Buffet Estándar</option>
-                                    <option>Buffet Premium</option>
-                                    <option>Platos Servidos</option>
-                                    <option>Menú Degustación</option>
+                                <label class="form-label-light" for="buffet">Tipo de Buffet</label>
+                                <!-- ✅ id="buffet" -->
+                                <select id="buffet" class="form-select-light w-100">
+                                    <option value="Sin buffet">Sin buffet</option>
+                                    <option value="Buffet Estándar">Buffet Estándar</option>
+                                    <option value="Buffet Premium">Buffet Premium</option>
+                                    <option value="Platos Servidos">Platos Servidos</option>
+                                    <option value="Menú Degustación">Menú Degustación</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label-light">Número de Tiempos</label>
-                                <select class="form-select-light w-100">
+                                <label class="form-label-light" for="tiempos">Número de Tiempos</label>
+                                <select id="tiempos" class="form-select-light w-100">
                                     <option>1 tiempo</option>
                                     <option>2 tiempos</option>
                                     <option>3 tiempos</option>
@@ -544,8 +407,8 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label class="form-label-light">Menú Personalizado / Notas</label>
-                                <textarea class="form-control-light w-100" placeholder="Describe el menú o especificaciones especiales..."></textarea>
+                                <label class="form-label-light" for="menuNotas">Menú Personalizado / Notas</label>
+                                <textarea id="menuNotas" class="form-control-light w-100" placeholder="Describe el menú o especificaciones especiales..."></textarea>
                             </div>
                             <div class="col-12">
                                 <label class="form-label-light">Restricciones Alimentarias</label>
@@ -588,90 +451,72 @@
                             </div>
                         </div>
                         <div class="row g-3">
-                            <!-- Mantelería -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc1">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc1">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc1" value="Mantelería y Cristalería">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#a3a168,#d4c97a);">
-                                                <i class="bi bi-table"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#a3a168,#d4c97a);"><i class="bi bi-table"></i></div>
                                             <div class="servicio-label">Mantelería y Cristalería</div>
                                             <div class="servicio-desc">Línea estándar o premium</div>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <!-- Audio -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc2">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc2">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc2" value="Audio y Sonido">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#2a8f9c,#00c9a7);">
-                                                <i class="bi bi-speaker"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#2a8f9c,#00c9a7);"><i class="bi bi-speaker"></i></div>
                                             <div class="servicio-label">Audio y Sonido</div>
                                             <div class="servicio-desc">DJ, sonido e iluminación</div>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <!-- Decoración -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc3">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc3">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc3" value="Decoraciones">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#845ec2,#c77dff);">
-                                                <i class="bi bi-flower1"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#845ec2,#c77dff);"><i class="bi bi-flower1"></i></div>
                                             <div class="servicio-label">Decoraciones</div>
                                             <div class="servicio-desc">Floral, temática o personalizada</div>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <!-- Fotografía -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc4">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc4">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc4" value="Fotografía y Video">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#ff9a9e,#c77dff);">
-                                                <i class="bi bi-camera"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#ff9a9e,#c77dff);"><i class="bi bi-camera"></i></div>
                                             <div class="servicio-label">Fotografía y Video</div>
                                             <div class="servicio-desc">Foto, video y drone</div>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <!-- Buffet extra -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc5">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc5">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc5" value="Buffet Premium">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#556b2f,#8aad3f);">
-                                                <i class="bi bi-egg-fried"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#556b2f,#8aad3f);"><i class="bi bi-egg-fried"></i></div>
                                             <div class="servicio-label">Buffet Premium</div>
                                             <div class="servicio-desc">Upgrade de catering</div>
                                         </div>
                                     </div>
                                 </label>
                             </div>
-                            <!-- Otros -->
                             <div class="col-md-4">
                                 <label class="servicio-check-card d-block" for="svc6">
                                     <div class="d-flex align-items-start gap-2">
-                                        <input class="form-check-input mt-1" type="checkbox" id="svc6">
+                                        <input class="form-check-input mt-1" type="checkbox" id="svc6" value="Otros Servicios">
                                         <div>
-                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#2a8f9c,#845ec2);">
-                                                <i class="bi bi-stars"></i>
-                                            </div>
+                                            <div class="servicio-icon-sm" style="background:linear-gradient(135deg,#2a8f9c,#845ec2);"><i class="bi bi-stars"></i></div>
                                             <div class="servicio-label">Otros Servicios</div>
                                             <div class="servicio-desc">Animación, transporte, etc.</div>
                                         </div>
@@ -693,62 +538,66 @@
                                 <p class="section-subtitle">Información adicional del evento</p>
                             </div>
                         </div>
-                        <textarea class="form-control-light w-100" rows="4"
+                        <!-- ✅ id="notas" -->
+                        <textarea id="notas" class="form-control-light w-100" rows="4"
                             placeholder="Escribe aquí cualquier detalle especial, petición del cliente, observaciones importantes..."></textarea>
                     </div>
 
-                    <!-- Botones de acción -->
+                    <!-- ✅ Botones conectados -->
                     <div class="d-flex gap-3 justify-content-end mt-2">
                         <a href="eventos.html" class="btn btn-outline-light-custom px-4">
                             <i class="bi bi-x-lg me-2"></i>Cancelar
                         </a>
-                        <button class="btn btn-outline-light-custom px-4">
+                        <button type="button" id="btnBorrador" class="btn btn-outline-light-custom px-4">
                             <i class="bi bi-floppy me-2"></i>Guardar Borrador
                         </button>
-                        <button class="btn btn-gold-light px-4">
+                        <!-- ✅ id="btnAgregar" — el app.js lo busca con este ID -->
+                        <button type="button" id="btnAgregar" class="btn btn-gold-light px-4">
                             <i class="bi bi-check-lg me-2"></i>Crear Evento
                         </button>
                     </div>
+
                 </div>
 
-                <!-- COLUMNA LATERAL (Resumen) -->
+                <!-- COLUMNA LATERAL — Resumen en vivo -->
                 <div class="col-xl-4">
                     <div class="resumen-card">
                         <h6 class="fw-bold mb-3" style="color:#d4c97a;">
                             <i class="bi bi-receipt me-2"></i>Resumen del Evento
                         </h6>
+                        <!-- ✅ IDs para actualizar en tiempo real -->
                         <div class="resumen-item">
                             <span class="resumen-label">Tipo de evento</span>
-                            <span class="resumen-value">—</span>
+                            <span class="resumen-value" id="res-tipo">—</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Fecha</span>
-                            <span class="resumen-value">—</span>
+                            <span class="resumen-value" id="res-fecha">—</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Invitados</span>
-                            <span class="resumen-value">0</span>
+                            <span class="resumen-value" id="res-invitados">0</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Paquete</span>
-                            <span class="resumen-value">Básico</span>
+                            <span class="resumen-value" id="res-paquete">Básico</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Buffet</span>
-                            <span class="resumen-value">Sin buffet</span>
+                            <span class="resumen-value" id="res-buffet">Sin buffet</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Servicios extra</span>
-                            <span class="resumen-value">0 seleccionados</span>
+                            <span class="resumen-value" id="res-servicios">0 seleccionados</span>
                         </div>
                         <div class="resumen-item">
                             <span class="resumen-label">Anticipo</span>
-                            <span class="resumen-value">$0.00</span>
+                            <span class="resumen-value" id="res-anticipo">$0.00</span>
                         </div>
                         <div class="resumen-total">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="fw-bold" style="color:#d4c97a;">TOTAL ESTIMADO</span>
-                                <span class="fw-bold fs-5 text-white">$0.00</span>
+                                <span class="fw-bold fs-5 text-white" id="res-total">$0.00</span>
                             </div>
                         </div>
 
@@ -756,24 +605,24 @@
                         <div class="mt-4">
                             <p class="small fw-semibold mb-2" style="color:rgba(255,255,255,0.5);">PROGRESO DEL FORMULARIO</p>
                             <div class="d-flex flex-column gap-2">
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-circle text-white-50 small"></i>
+                                <div class="d-flex align-items-center gap-2 check-step" id="step1">
+                                    <i class="bi bi-circle small"></i>
                                     <span class="small text-white-50">Información general</span>
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-circle text-white-50 small"></i>
+                                <div class="d-flex align-items-center gap-2 check-step" id="step2">
+                                    <i class="bi bi-circle small"></i>
                                     <span class="small text-white-50">Datos del cliente</span>
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-circle text-white-50 small"></i>
+                                <div class="d-flex align-items-center gap-2 check-step" id="step3">
+                                    <i class="bi bi-circle small"></i>
                                     <span class="small text-white-50">Paquete seleccionado</span>
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-circle text-white-50 small"></i>
+                                <div class="d-flex align-items-center gap-2 check-step" id="step4">
+                                    <i class="bi bi-circle small"></i>
                                     <span class="small text-white-50">Buffet y catering</span>
                                 </div>
-                                <div class="d-flex align-items-center gap-2">
-                                    <i class="bi bi-circle text-white-50 small"></i>
+                                <div class="d-flex align-items-center gap-2 check-step" id="step5">
+                                    <i class="bi bi-circle small"></i>
                                     <span class="small text-white-50">Servicios adicionales</span>
                                 </div>
                             </div>
@@ -787,20 +636,106 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
 <script>
-    // Selección de paquetes
-    function selectPaquete(el) {
-        document.querySelectorAll('.paquete-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
+// ── Selección de paquete ──────────────────────────────────
+function selectPaquete(el) {
+    document.querySelectorAll('.paquete-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    const precio = el.dataset.precio;
+    const nombre = el.dataset.paquete;
+    // Actualiza input precio y resumen
+    document.getElementById('precioPP').value = precio > 0 ? precio : '';
+    document.getElementById('res-paquete').textContent = nombre;
+    actualizarTotal();
+}
 
-    // Toggle de servicios check cards
-    document.querySelectorAll('.servicio-check-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const checkbox = this.querySelector('input[type="checkbox"]');
-            this.classList.toggle('selected', checkbox.checked);
-        });
+// ── Toggle servicios check cards ──────────────────────────
+document.querySelectorAll('.servicio-check-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const checkbox = this.querySelector('input[type="checkbox"]');
+        this.classList.toggle('selected', checkbox.checked);
+        actualizarResumenServicios();
     });
+});
+
+// ── Actualizar resumen lateral en tiempo real ─────────────
+function actualizarResumenLateral() {
+    const tipo      = document.getElementById('tipo');
+    const fecha     = document.getElementById('fecha');
+    const invitados = document.getElementById('invitados');
+    const buffet    = document.getElementById('buffet');
+    const anticipo  = document.getElementById('anticipo');
+
+    if (tipo)      document.getElementById('res-tipo').textContent    = tipo.value || '—';
+    if (fecha)     document.getElementById('res-fecha').textContent   = fecha.value ? new Date(fecha.value + 'T00:00:00').toLocaleDateString('es-ES') : '—';
+    if (invitados) document.getElementById('res-invitados').textContent = invitados.value || '0';
+    if (buffet)    document.getElementById('res-buffet').textContent  = buffet.value;
+    if (anticipo)  document.getElementById('res-anticipo').textContent = '$' + (parseFloat(anticipo.value) || 0).toFixed(2);
+
+    actualizarTotal();
+    actualizarChecklist();
+}
+
+function actualizarResumenServicios() {
+    const count = document.querySelectorAll('.servicio-check-card input:checked').length;
+    document.getElementById('res-servicios').textContent = count + ' seleccionados';
+    actualizarTotal();
+}
+
+function actualizarTotal() {
+    const invitados = parseFloat(document.getElementById('invitados')?.value) || 0;
+    const precio    = parseFloat(document.getElementById('precioPP')?.value)  || 0;
+    const anticipo  = parseFloat(document.getElementById('anticipo')?.value)  || 0;
+    const total     = invitados * precio;
+    document.getElementById('res-total').textContent   = '$' + total.toFixed(2);
+    document.getElementById('res-anticipo').textContent = '$' + anticipo.toFixed(2);
+}
+
+function actualizarChecklist() {
+    const nombre   = document.getElementById('nombre')?.value.trim();
+    const tipo     = document.getElementById('tipo')?.value;
+    const fecha    = document.getElementById('fecha')?.value;
+    const cliente  = document.getElementById('clienteNombre')?.value.trim();
+    const paquete  = document.querySelector('.paquete-card.selected');
+    const buffet   = document.getElementById('buffet')?.value;
+    const servicios = document.querySelectorAll('.servicio-check-card input:checked').length;
+
+    setStep('step1', nombre && tipo && fecha);
+    setStep('step2', !!cliente);
+    setStep('step3', !!paquete);
+    setStep('step4', buffet !== 'Sin buffet');
+    setStep('step5', servicios > 0);
+}
+
+function setStep(id, done) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const icon = el.querySelector('i');
+    const txt  = el.querySelector('span');
+    if (done) {
+        icon.className = 'bi bi-check-circle-fill small';
+        txt.style.color = '#8aad3f';
+    } else {
+        icon.className = 'bi bi-circle small';
+        txt.style.color = 'rgba(255,255,255,0.5)';
+    }
+}
+
+// Mostrar/ocultar alerta
+function ocultarAlerta() {
+    document.getElementById('alertaToast').style.display = 'none';
+}
+
+// ── Escuchar cambios en inputs para actualizar resumen ────
+document.addEventListener('DOMContentLoaded', () => {
+    const campos = ['tipo','fecha','invitados','buffet','anticipo','precioPP'];
+    campos.forEach(id => {
+        document.getElementById(id)?.addEventListener('input',  actualizarResumenLateral);
+        document.getElementById(id)?.addEventListener('change', actualizarResumenLateral);
+    });
+    document.getElementById('btnAgregar')?.addEventListener('click', agregarEvento);
+});
 </script>
 </body>
 </html>
