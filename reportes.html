@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="d-flex" id="wrapper">
+
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar-wrapper">
         <div class="logo-section p-4 mb-2 text-white text-center">
@@ -18,11 +19,11 @@
             <h5 class="fw-bold mb-0 gradient-text" style="letter-spacing: 1px; font-size: 1.5rem;">Vento Planner</h5>
         </div>
         <div class="list-group list-group-flush px-2">
-            <a href="index.html" class="list-group-item list-group-item-action"><i class="bi bi-house-door me-3"></i>Inicio</a>
-            <a href="eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-calendar-event me-3"></i>Eventos</a>
-            <a href="reportes.html" class="list-group-item list-group-item-action active"><i class="bi bi-bar-chart-line me-3"></i>Reportes</a>
+            <a href="index.html"         class="list-group-item list-group-item-action"><i class="bi bi-house-door me-3"></i>Inicio</a>
+            <a href="eventos.html"       class="list-group-item list-group-item-action"><i class="bi bi-calendar-event me-3"></i>Eventos</a>
+            <a href="reportes.html"      class="list-group-item list-group-item-action active"><i class="bi bi-bar-chart-line me-3"></i>Reportes</a>
             <a href="tipos_eventos.html" class="list-group-item list-group-item-action"><i class="bi bi-trophy me-3"></i>Tipos de Eventos</a>
-            <a href="servicios.html" class="list-group-item list-group-item-action"><i class="bi bi-tools me-3"></i>Servicios</a>
+            <a href="servicios.html"     class="list-group-item list-group-item-action"><i class="bi bi-tools me-3"></i>Servicios</a>
             <a href="configuracion.html" class="list-group-item list-group-item-action mt-3"><i class="bi bi-gear me-3"></i>Configuración</a>
         </div>
     </div>
@@ -44,43 +45,45 @@
                 <p class="text-white-50">Resumen estadístico de tu negocio</p>
             </div>
 
-            <!-- Cards de métricas -->
+            <!-- Cards de métricas dinámicas -->
             <div class="row g-4 mb-4">
                 <div class="col-md-3">
                     <div class="glass-card-light text-center">
                         <i class="bi bi-calendar-check fs-1 icon-gold mb-2 d-block"></i>
-                        <h3 class="text-white fw-bold">24</h3>
+                        <h3 class="text-white fw-bold" id="reporteTotalMes">0</h3>
                         <p class="text-white-50 mb-0">Eventos este mes</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="glass-card-light text-center">
                         <i class="bi bi-currency-dollar fs-1 icon-purple mb-2 d-block"></i>
-                        <h3 class="text-white fw-bold">$15,400</h3>
-                        <p class="text-white-50 mb-0">Ingresos del mes</p>
+                        <h3 class="text-white fw-bold" id="reporteIngresos">$0</h3>
+                        <p class="text-white-50 mb-0">Ingresos estimados</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="glass-card-light text-center">
                         <i class="bi bi-people fs-1 icon-gold mb-2 d-block"></i>
-                        <h3 class="text-white fw-bold">8</h3>
-                        <p class="text-white-50 mb-0">Clientes nuevos</p>
+                        <h3 class="text-white fw-bold" id="reporteClientes">0</h3>
+                        <p class="text-white-50 mb-0">Total de eventos</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="glass-card-light text-center">
                         <i class="bi bi-star fs-1 icon-purple mb-2 d-block"></i>
-                        <h3 class="text-white fw-bold">4.8</h3>
+                        <h3 class="text-white fw-bold" id="reporteCalif">4.8</h3>
                         <p class="text-white-50 mb-0">Calificación promedio</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Tabla de Reporte -->
+            <!-- Tabla dinámica -->
             <div class="glass-card">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h5 class="text-white fw-semibold mb-0">Reporte Detallado por Tipo de Evento</h5>
-                    <button class="btn btn-gold btn-sm px-4"><i class="bi bi-download me-2"></i>Exportar</button>
+                    <button class="btn btn-gold btn-sm px-4"onclick="exportarCSV()">
+                        <i class="bi bi-download me-2"></i>Exportar
+                    </button>
                 </div>
                 <div class="table-responsive">
                     <table class="table custom-table text-white align-middle">
@@ -93,50 +96,32 @@
                                 <th>% del Total</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tablaReportes">
                             <tr>
-                                <td><span class="badge badge-gold me-2">Bodas</span></td>
-                                <td>8</td>
-                                <td>$6,400</td>
-                                <td>$800</td>
-                                <td>
-                                    <div class="progress progress-glass" style="height: 8px;">
-                                        <div class="progress-bar bg-gold" style="width: 42%"></div>
-                                    </div>
-                                    <small>42%</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-purple me-2">Quinceaños</span></td>
-                                <td>6</td>
-                                <td>$4,800</td>
-                                <td>$800</td>
-                                <td>
-                                    <div class="progress progress-glass" style="height: 8px;">
-                                        <div class="progress-bar bg-purple" style="width: 31%"></div>
-                                    </div>
-                                    <small>31%</small>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge badge-teal me-2">Cumpleaños</span></td>
-                                <td>10</td>
-                                <td>$4,200</td>
-                                <td>$420</td>
-                                <td>
-                                    <div class="progress progress-glass" style="height: 8px;">
-                                        <div class="progress-bar bg-teal" style="width: 27%"></div>
-                                    </div>
-                                    <small>27%</small>
+                                <td colspan="5" class="text-white-50 text-center">
+                                    Cargando datos...
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+<!-- Toast de alertas -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="alertaToast" class="toast align-items-center border-0" style="display:none;">
+        <div class="d-flex">
+            <div class="toast-body" id="alertaMsg"></div>
+            <button type="button" class="btn-close me-2 m-auto" onclick="ocultarAlerta()"></button>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

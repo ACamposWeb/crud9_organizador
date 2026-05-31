@@ -346,6 +346,8 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarEventosDashboard();
     actualizarResumen();
     iniciarWorkerMetricas();
+    actualizarReportes();
+
 
     // ── Tabla eventos (eventos.html) ──
     mostrarEventosTabla();
@@ -455,6 +457,127 @@ function recogerDatos() {
         notas:     document.getElementById("notas")?.value
     };
 }
+// ===============================
+//  REPORTES — reportes.html
+// ===============================
+function actualizarReportes() {
+    if (!document.getElementById("reporteTotalMes")) return;
+
+    const hoy = new Date();
+    const mesActual = hoy.getMonth();
+    const anioActual = hoy.getFullYear();
+
+    // Eventos del mes actual
+    const eventosMes = eventos.filter(ev => {
+        const fecha = new Date(ev.fecha + "T00:00:00");
+        return fecha.getMonth() === mesActual &&
+               fecha.getFullYear() === anioActual;
+    });
+
+    // Ingresos totales
+    const ingresos = eventos.reduce((total, ev) =>
+        total + (parseFloat(ev.precioPP) * parseInt(ev.invitados) || 0), 0);
+
+    // Conteo por tipo
+    const tipos = {};
+    eventos.forEach(ev => {
+        tipos[ev.tipo] = (tipos[ev.tipo] || 0) + 1;
+    });
+
+    const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+
+    set("reporteTotalMes", eventosMes.length);
+    set("reporteIngresos", `$${ingresos.toLocaleString()}`);
+    set("reporteClientes", eventos.length);
+    set("reporteCalif",    "4.8");
+
+    // Tabla por tipo
+    const tbody = document.getElementById("tablaReportes");
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+    const total = eventos.length || 1;
+
+    Object.entries(tipos).forEach(([tipo, cantidad]) => {
+        const porcentaje = Math.round((cantidad / total) * 100);
+        const ingreso = eventos
+            .filter(ev => ev.tipo === tipo)
+            .reduce((t, ev) => t + (parseFloat(ev.precioPP) * parseInt(ev.invitados) || 0), 0);
+        const promedio = cantidad > 0 ? Math.round(ingreso / cantidad) : 0;
+
+        tbody.innerHTML += `
+            <tr>
+                <td><span class="badge badge-gold me-2">${tipo}</span></td>
+                <td>${cantidad}</td>
+                <td>$${ingreso.toLocaleString()}</td>
+                <td>$${promedio.toLocaleString()}</td>
+                <td>
+                    <div class="progress progress-glass" style="height: 8px;">
+                        <div class="progress-bar bg-gold" style="width: ${porcentaje}%"></div>
+                    </div>
+                    <small>${porcentaje}%</small>
+                </td>
+            </tr>`;
+    });
+
+    if (Object.keys(tipos).length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-white-50 text-center">No hay eventos registrados aún.</td></tr>`;
+    }
+}
+
+function exportarCSV() {
+    if (eventos.length === 0) {
+        mostrarAlerta("No hay eventos para exportar.", "warning");
+        return;
+    }
+
+    // Encabezados
+    const encabezados = [
+        "N°", "Nombre del Evento", "Tipo", "Fecha", "Estado",
+        "Lugar", "Invitados", "Cliente", "Teléfono",
+        "Paquete", "Precio PP", "Anticipo", "Forma de Pago"
+    ];
+
+    const filas = eventos.map((ev, i) => [
+        i + 1,
+        ev.nombre,
+        ev.tipo,
+        ev.fecha,
+        ev.estado || "Pendiente",
+        ev.lugar,
+        ev.invitados,
+        ev.cliente?.nombre || "",
+        ev.cliente?.telefono || "",
+        ev.paquete || "Básico",
+        `$${ev.precioPP || 0}`,
+        `$${ev.anticipo || 0}`,
+        ev.formaPago || "Efectivo"
+    ]);
+
+    const contenido = [
+        encabezados.join(";"),
+        ...filas.map(fila => fila.map(v => `"${v}"`).join(";"))
+    ].join("\n");
+
+    
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + contenido], { type: "text/csv;charset=utf-8;" });
+    const url  = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href     = url;
+
+    const hoy = new Date();
+    const fecha = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+    link.download = `reporte_eventos_${fecha}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+
+    mostrarAlerta("Reporte exportado correctamente.", "success");
+}
+
 
 // ===============================
 //  WEB WORKER — Métricas Dashboard
