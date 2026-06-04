@@ -1,4 +1,74 @@
 // ===============================
+//  INICIALIZAR
+// ===============================
+document.addEventListener("DOMContentLoaded", async () => {
+
+    try {
+
+        // ==========================
+        // Cargar componentes
+        // ==========================
+        const navbarResponse = await fetch("navbar.html");
+        const navbarHtml = await navbarResponse.text();
+        document.getElementById("navbar-container")?.insertAdjacentHTML("afterbegin", navbarHtml);
+
+        const sidebarResponse = await fetch("sidebar.html");
+        const sidebarHtml = await sidebarResponse.text();
+        document.getElementById("sidebar-container")?.insertAdjacentHTML("afterbegin", sidebarHtml);
+
+        // Marcar página activa
+        const paginaActual = window.location.pathname.split("/").pop();
+
+        document.querySelectorAll("#sidebar-container a").forEach(link => {
+            if (link.getAttribute("href") === paginaActual) {
+                link.classList.add("active");
+            }
+        });
+
+        // ==========================
+        // Dashboard
+        // ==========================
+        mostrarEventosDashboard();
+        actualizarResumen();
+        iniciarWorkerMetricas();
+        actualizarReportes();
+
+        // ==========================
+        // Eventos
+        // ==========================
+        mostrarEventosTabla();
+
+        document.getElementById("buscador")
+            ?.addEventListener("input", aplicarFiltros);
+
+        document.getElementById("filtroTipo")
+            ?.addEventListener("change", aplicarFiltros);
+
+        document.getElementById("filtroFecha")
+            ?.addEventListener("change", aplicarFiltros);
+
+        document.getElementById("btnConfirmarEliminar")
+            ?.addEventListener("click", eliminarEvento);
+
+        // ==========================
+        // Nuevo evento
+        // ==========================
+        document.getElementById("btnAgregar")
+            ?.addEventListener("click", agregarEvento);
+
+        document.getElementById("btnBorrador")
+            ?.addEventListener("click", guardarBorrador);
+
+        // ==========================
+        // Cargar edición
+        // ==========================
+        cargarDatosEdicion();
+
+    } catch (error) {
+        console.error(error);
+    }
+});
+// ===============================
 //  VARIABLES GLOBALES
 // ===============================
 let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
@@ -337,90 +407,7 @@ function ocultarAlerta() {
     if (toast) toast.style.display = "none";
 }
 
-// ===============================
-//  INICIALIZAR
-// ===============================
-document.addEventListener("DOMContentLoaded", () => {
 
-    // ── Dashboard (index.html) ──
-    mostrarEventosDashboard();
-    actualizarResumen();
-    iniciarWorkerMetricas();
-    actualizarReportes();
-
-
-    // ── Tabla eventos (eventos.html) ──
-    mostrarEventosTabla();
-    document.getElementById("buscador")?.addEventListener("input",  aplicarFiltros);
-    document.getElementById("filtroTipo")?.addEventListener("change", aplicarFiltros);
-    document.getElementById("filtroFecha")?.addEventListener("change", aplicarFiltros);
-    document.getElementById("btnConfirmarEliminar")?.addEventListener("click", eliminarEvento);
-
-    // ── Nuevo Evento (nuevo_evento.html) ──
-    document.getElementById("btnAgregar")?.addEventListener("click", agregarEvento);
-    document.getElementById("btnBorrador")?.addEventListener("click", guardarBorrador);
-
-    // ── Cargar datos para editar ──
-    const editData = sessionStorage.getItem("editarEvento");
-    if (editData && document.getElementById("nombre")) {
-        const ev = JSON.parse(editData);
-        sessionStorage.removeItem("editarEvento");
-
-        const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
-        set("nombre",           ev.nombre);
-        set("fecha",            ev.fecha);
-        set("tipo",             ev.tipo);
-        set("horaInicio",       ev.horaInicio);
-        set("horaFin",          ev.horaFin);
-        set("lugar",            ev.lugar);
-        set("invitados",        ev.invitados);
-        set("estado",           ev.estado);
-        set("clienteNombre",    ev.cliente?.nombre);
-        set("clienteDui",       ev.cliente?.dui);
-        set("clienteTel",       ev.cliente?.telefono);
-        set("clienteWa",        ev.cliente?.whatsapp);
-        set("clienteEmail",     ev.cliente?.email);
-        set("clienteDireccion", ev.cliente?.direccion);
-        set("precioPP",         ev.precioPP);
-        set("anticipo",         ev.anticipo);
-        set("formaPago",        ev.formaPago);
-        set("buffet",           ev.buffet);
-        set("tiempos",          ev.tiempos);
-        set("menuNotas",        ev.menuNotas);
-        set("notas",            ev.notas);
-
-        // Paquete card
-        document.querySelectorAll('.paquete-card').forEach(c => {
-            c.classList.toggle('selected', c.dataset.paquete === ev.paquete);
-        });
-
-        // Servicios
-        if (ev.servicios) {
-            document.querySelectorAll('.servicio-check-card input').forEach(cb => {
-                if (ev.servicios.includes(cb.value)) {
-                    cb.checked = true;
-                    cb.closest('.servicio-check-card').classList.add('selected');
-                }
-            });
-        }
-
-        // Cambiar título y botón
-        const titulo = document.getElementById("tituloFormulario");
-        if (titulo) titulo.textContent = "Editar Evento";
-
-        const btn = document.getElementById("btnAgregar");
-        if (btn) {
-            btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Actualizar Evento';
-            btn.onclick = () => {
-                eventos[ev.index] = { ...eventos[ev.index], ...recogerDatos() };
-                guardarEventos();
-                mostrarAlerta("Evento actualizado correctamente. Redirigiendo...", "success");
-                btn.disabled = true;
-                setTimeout(() => { window.location.href = "eventos.html"; }, 1500);
-            };
-        }
-    }
-});
 
 // ===============================
 //  RECOGER DATOS DEL FORMULARIO
@@ -588,7 +575,7 @@ function iniciarWorkerMetricas() {
         return;
     }
 
-    const worker = new Worker("dashboardWorker.js");
+    const worker = new Worker("js/dashboardWorker.js");
 
     worker.postMessage(eventos);
 
@@ -618,3 +605,66 @@ function iniciarWorkerMetricas() {
         console.error("Error en Web Worker:", err.message);
     };
 }
+function cargarDatosEdicion(){
+    // ── Cargar datos para editar ──
+    const editData = sessionStorage.getItem("editarEvento");
+    if (editData && document.getElementById("nombre")) {
+        const ev = JSON.parse(editData);
+        sessionStorage.removeItem("editarEvento");
+
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
+        set("nombre",           ev.nombre);
+        set("fecha",            ev.fecha);
+        set("tipo",             ev.tipo);
+        set("horaInicio",       ev.horaInicio);
+        set("horaFin",          ev.horaFin);
+        set("lugar",            ev.lugar);
+        set("invitados",        ev.invitados);
+        set("estado",           ev.estado);
+        set("clienteNombre",    ev.cliente?.nombre);
+        set("clienteDui",       ev.cliente?.dui);
+        set("clienteTel",       ev.cliente?.telefono);
+        set("clienteWa",        ev.cliente?.whatsapp);
+        set("clienteEmail",     ev.cliente?.email);
+        set("clienteDireccion", ev.cliente?.direccion);
+        set("precioPP",         ev.precioPP);
+        set("anticipo",         ev.anticipo);
+        set("formaPago",        ev.formaPago);
+        set("buffet",           ev.buffet);
+        set("tiempos",          ev.tiempos);
+        set("menuNotas",        ev.menuNotas);
+        set("notas",            ev.notas);
+
+        // Paquete card
+        document.querySelectorAll('.paquete-card').forEach(c => {
+            c.classList.toggle('selected', c.dataset.paquete === ev.paquete);
+        });
+
+        // Servicios
+        if (ev.servicios) {
+            document.querySelectorAll('.servicio-check-card input').forEach(cb => {
+                if (ev.servicios.includes(cb.value)) {
+                    cb.checked = true;
+                    cb.closest('.servicio-check-card').classList.add('selected');
+                }
+            });
+        }
+
+        // Cambiar título y botón
+        const titulo = document.getElementById("tituloFormulario");
+        if (titulo) titulo.textContent = "Editar Evento";
+
+        const btn = document.getElementById("btnAgregar");
+        if (btn) {
+            btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Actualizar Evento';
+            btn.onclick = () => {
+                eventos[ev.index] = { ...eventos[ev.index], ...recogerDatos() };
+                guardarEventos();
+                mostrarAlerta("Evento actualizado correctamente. Redirigiendo...", "success");
+                btn.disabled = true;
+                setTimeout(() => { window.location.href = "eventos.html"; }, 1500);
+            };
+        }
+    }
+}
+
