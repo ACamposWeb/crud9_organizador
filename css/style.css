@@ -316,7 +316,14 @@ p, .text-black {
 .bg-gold { background-color: var(--accent-gold) !important; }
 .bg-purple { background-color: #845ec2 !important; }
 .bg-teal { background-color: var(--accent-teal) !important; }
+.card-glass {
+    height: 100%;
+}
 
+#graficoEventos {
+    width: 100% !important;
+    height: 100% !important;
+}
 
 /* Seccion de Servicios */
         /* ===== TEMA CLARO GENERAL ===== */

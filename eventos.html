@@ -56,8 +56,9 @@
                 </div>
             </div>
 
+            
             <!-- Tabla de Eventos -->
-            <div class="glass-card">
+            <div class="glass-card mb-2">
                 <div class="table-responsive">
                     <table class="table custom-table text-white align-middle">
                         <thead>
@@ -72,6 +73,33 @@
                         </thead>
                         <!-- ✅ tbody dinámico conectado al app.js -->
                         <tbody id="tablaEventos">
+                            <!-- Se llena con app.js -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Mensaje cuando no hay eventos -->
+                <div id="sinEventos" class="text-white-50 text-center py-4" style="display:none;">
+                    <i class="bi bi-calendar-x fs-3 d-block mb-2"></i>
+                    No hay eventos registrados. <a href="nuevo_evento.html" class="text-warning">Agrega el primero</a>.
+                </div>
+            </div>
+            <!-- Tabla de Eventos Borradores-->
+            <div id="seccionBorradores" class="glass-card ">
+                <div class="table-responsive">
+                    <h2>Borradores</h2>
+                    <table class="table custom-table text-white align-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <!-- ✅ tbody dinámico conectado al app.js -->
+                        <tbody id="tablaEventosBorradores">
                             <!-- Se llena con app.js -->
                         </tbody>
                     </table>

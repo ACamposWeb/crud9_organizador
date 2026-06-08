@@ -1,0 +1,100 @@
+/* ===== TEMA CLARO (Igual que nuevo-evento.html) ===== */
+        body {
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0e8f8 25%, #e8f8f0 50%, #f8f0e8 75%, #e8eef8 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        #page-content-wrapper .navbar {
+            background: rgba(255,255,255,0.6) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.8);
+        }
+        .page-title { color: #1a2e22; }
+        .page-subtitle { color: #6c757d; }
+
+        /* ===== ESTILOS ESPECÍFICOS PARA PAQUETES ===== */
+        .package-card-light {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .package-card-light:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(163,161,104,0.15);
+            border-color: #a3a168;
+        }
+        /* Encabezado del paquete con gradiente según el nivel */
+        .package-header {
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        /* Colores ajustados para 3 niveles */
+        .pkg-basic { background: linear-gradient(135deg, #8e9eab, #eef2f3); color: #495057; }
+        .pkg-classic { background: linear-gradient(135deg, #2a8f9c, #00c9a7); } /* Usamos el tono turquesa para el medio */
+        .pkg-premium { background: linear-gradient(135deg, #845ec2, #c77dff); } /* Usamos el tono morado para el alto */
+
+        .package-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .package-price { font-size: 2rem; font-weight: 800; }
+        .package-price small { font-size: 0.9rem; font-weight: 400; opacity: 0.8; }
+
+        /* Cuerpo de la tarjeta */
+        .package-body { padding: 1.5rem; flex-grow: 1; }
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-list li {
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            color: #495057;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .feature-list li i { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+        .check-icon { color: #a3a168; }
+        .x-icon { color: #adb5bd; opacity: 0.6; }
+        .feature-muted { color: #adb5bd; text-decoration: line-through; opacity: 0.7; }
+        .feature-highlight { font-weight: 600; color: #1a2e22; }
+
+        /* Sección de Buffet dentro del paquete */
+        .buffet-section {
+            background: rgba(163,161,104,0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .buffet-title { font-weight: 700; color: #1a2e22; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;}
+
+        /* Botón del paquete */
+        .package-footer { padding: 1.5rem; text-align: center; }
+        .btn-choose {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+        /* Botones ajustados a los nuevos colores de encabezado */
+        .btn-choose-basic { background: linear-gradient(135deg, #b8c6db 0%, #f5f7fa 100%); color: #495057; border: 1px solid rgba(255,255,255,0.5); }
+        .btn-choose-basic:hover { background: linear-gradient(135deg, #cdddec 0%, #ffffff 100%); box-shadow: 0 6px 15px rgba(184, 198, 219, 0.4); }
+        
+        .btn-choose-classic { background: linear-gradient(135deg, #2a8f9c, #00c9a7); color: white; }
+        .btn-choose-classic:hover { box-shadow: 0 4px 15px rgba(42, 143, 156, 0.4); }
+        
+        .btn-choose-premium { background: linear-gradient(135deg, #845ec2, #c77dff); color: white; }
+        .btn-choose-premium:hover { box-shadow: 0 4px 15px rgba(132, 94, 194, 0.4); }
+
+        /* Card de Otros Servicios */
+        .addons-card {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.8);
+        }

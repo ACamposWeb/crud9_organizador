@@ -8,130 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #e8f4f8 0%, #f0e8f8 25%, #e8f8f0 50%, #f8f0e8 75%, #e8eef8 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-        .sidebar { background: linear-gradient(180deg, #1a2e22 0%, #0f1f17 100%); }
-        #page-content-wrapper .navbar {
-            background: rgba(255,255,255,0.6) !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.8);
-        }
-        .page-title { color: #1a2e22; }
-        .page-subtitle { color: #6c757d; }
-        .card-light {
-            background: rgba(255,255,255,0.65);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.9);
-            border-radius: 18px;
-            padding: 1.8rem;
-            box-shadow: 0 8px 32px rgba(31,38,135,0.08);
-            margin-bottom: 1.5rem;
-        }
-        .section-header {
-            display: flex; align-items: center; gap: 12px;
-            margin-bottom: 1.5rem; padding-bottom: 0.8rem;
-            border-bottom: 2px solid rgba(163,161,104,0.3);
-        }
-        .section-icon {
-            width: 42px; height: 42px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: #fff; flex-shrink: 0;
-        }
-        .section-title { font-size: 1rem; font-weight: 600; color: #1a2e22; margin: 0; }
-        .section-subtitle { font-size: 0.75rem; color: #6c757d; margin: 0; }
-        .form-label-light {
-            font-size: 0.8rem; font-weight: 600; color: #495057;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem;
-        }
-        .form-control-light, .form-select-light {
-            background: rgba(255,255,255,0.8);
-            border: 1.5px solid rgba(163,161,104,0.3);
-            border-radius: 10px; color: #212529;
-            padding: 0.6rem 1rem;
-            font-family: 'Poppins', sans-serif; font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        .form-control-light:focus, .form-select-light:focus {
-            background: #fff; border-color: #a3a168;
-            box-shadow: 0 0 0 0.2rem rgba(163,161,104,0.2); color: #212529;
-        }
-        .form-control-light::placeholder { color: #adb5bd; }
-        .form-control-light.is-invalid { border-color: #dc3545 !important; }
-
-        .servicio-check-card {
-            background: rgba(255,255,255,0.7);
-            border: 2px solid rgba(163,161,104,0.2);
-            border-radius: 14px; padding: 1rem; cursor: pointer;
-            transition: all 0.3s; height: 100%;
-        }
-        .servicio-check-card:hover { border-color: #a3a168; background: rgba(255,255,255,0.95); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(163,161,104,0.2); }
-        .servicio-check-card.selected { border-color: #a3a168; background: rgba(163,161,104,0.1); }
-        .servicio-icon-sm { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; }
-        .servicio-label { font-size: 0.85rem; font-weight: 600; color: #1a2e22; margin-bottom: 0.2rem; }
-        .servicio-desc { font-size: 0.72rem; color: #6c757d; }
-
-        .paquete-card {
-            background: rgba(255,255,255,0.7); border: 2px solid rgba(163,161,104,0.2);
-            border-radius: 14px; padding: 1.2rem; cursor: pointer;
-            transition: all 0.3s; text-align: center;
-        }
-        .paquete-card:hover, .paquete-card.selected {
-            border-color: #a3a168; background: rgba(163,161,104,0.1);
-            transform: translateY(-3px); box-shadow: 0 8px 24px rgba(163,161,104,0.25);
-        }
-        .paquete-price { font-size: 1.4rem; font-weight: 700; color: #1a2e22; }
-        .paquete-name { font-size: 0.9rem; font-weight: 600; color: #495057; }
-        .paquete-features { font-size: 0.75rem; color: #6c757d; margin-top: 0.5rem; }
-
-        .btn-primary-light {
-            background: linear-gradient(135deg, #1a2e22, #2a4a35); color: #fff;
-            border: none; border-radius: 12px; padding: 0.7rem 2rem;
-            font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
-        }
-        .btn-primary-light:hover { background: linear-gradient(135deg, #2a4a35, #3a6a4a); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,46,34,0.3); }
-        .btn-outline-light-custom {
-            background: rgba(255,255,255,0.7); color: #495057;
-            border: 1.5px solid rgba(163,161,104,0.4); border-radius: 12px;
-            padding: 0.7rem 2rem; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
-        }
-        .btn-outline-light-custom:hover { background: rgba(255,255,255,0.95); border-color: #a3a168; color: #1a2e22; }
-        .btn-gold-light {
-            background: linear-gradient(135deg, #a3a168, #d4c97a); color: #fff;
-            border: none; border-radius: 12px; padding: 0.7rem 2rem;
-            font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;
-        }
-        .btn-gold-light:hover { background: linear-gradient(135deg, #d4c97a, #a3a168); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(163,161,104,0.4); }
-        .btn-gold-light:disabled { opacity: 0.6; transform: none; cursor: not-allowed; }
-
-        .resumen-card {
-            background: linear-gradient(135deg, #1a2e22, #0f1f17);
-            border-radius: 18px; padding: 1.8rem; color: #fff;
-            position: sticky; top: 20px;
-        }
-        .resumen-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem;
-        }
-        .resumen-item:last-child { border-bottom: none; }
-        .resumen-label { color: rgba(255,255,255,0.6); }
-        .resumen-value { color: #fff; font-weight: 600; }
-        .resumen-total { background: rgba(163,161,104,0.2); border-radius: 10px; padding: 0.8rem 1rem; margin-top: 1rem; }
-        .step-badge { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #a3a168, #d4c97a); color: #fff; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        textarea.form-control-light { resize: vertical; min-height: 100px; }
-        .input-group-light .input-group-text { background: rgba(255,255,255,0.8); border: 1.5px solid rgba(163,161,104,0.3); border-right: none; color: #6c757d; border-radius: 10px 0 0 10px; }
-        .input-group-light .form-control-light { border-left: none; border-radius: 0 10px 10px 0; }
-
-        /* Checklist progreso */
-        .check-step i.bi-check-circle-fill { color: #8aad3f; }
-        .check-step i.bi-circle { color: rgba(255,255,255,0.3); }
-
-        /* Toast alerta */
-        #alertaToast { position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 280px; }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="css/ne.css">
 </head>
 <body>
 <div class="d-flex" id="wrapper">
@@ -204,17 +82,13 @@
                                 <label class="form-label-light" for="horaFin">Hora de Fin</label>
                                 <input type="time" id="horaFin" class="form-control-light w-100">
                             </div>
+                            
                             <div class="col-md-6">
-                                <label class="form-label-light" for="lugar">Lugar / Salón *</label>
-                                <!-- ✅ id="lugar" -->
-                                <input type="text" id="lugar" class="form-control-light w-100" placeholder="Nombre del salón o dirección">
-                            </div>
-                            <div class="col-md-3">
                                 <label class="form-label-light" for="invitados">N° de Invitados *</label>
                                 <!-- ✅ id="invitados" -->
                                 <input type="number" id="invitados" class="form-control-light w-100" placeholder="0" min="1">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label class="form-label-light" for="estado">Estado</label>
                                 <!-- ✅ id="estado" -->
                                 <select id="estado" class="form-select-light w-100">
@@ -223,6 +97,47 @@
                                     <option value="En proceso">En proceso</option>
                                     <option value="Finalizado">Finalizado</option>
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-light mt-4">
+                        <div class="section-header">
+                            <div class="step-badge">2</div>
+                            <div class="section-icon" style="background: linear-gradient(135deg,#4caf50,#81c784);">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <p class="section-title">Ubicación del Evento</p>
+                                <p class="section-subtitle">Seleccione la ubicación en el mapa</p>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label-light" for="lugar">Lugar / Salón *</label>
+                                <!-- ✅ id="lugar" -->
+                                <input type="text" id="lugar" class="form-control-light w-100" placeholder="Selecciona un punto del mapa">
+                            </div>
+                            <div class="col-md-12 d-none">
+                                <button type="button" id="btnUbicacionActual" class="btn btn-success">
+                                    <i class="bi bi-crosshair"></i>
+                                    Usar mi ubicación actual
+                                </button>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label>Latitud</label>
+                                <input type="text" id="latitud" class="form-control-light" readonly>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Longitud</label>
+                                <input type="text" id="longitud" class="form-control-light" readonly>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div id="mapa" style="height:400px;border-radius:12px;"></div>
                             </div>
                         </div>
                     </div>
@@ -242,29 +157,28 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label-light" for="clienteNombre">Nombre Completo *</label>
-                                <!-- ✅ id="clienteNombre" -->
                                 <input type="text" id="clienteNombre" class="form-control-light w-100" placeholder="Nombre y apellidos">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label-light" for="clienteDui">DUI / Identificación</label>
                                 <input type="text" id="clienteDui" class="form-control-light w-100" placeholder="00000000-0">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label-light" for="clienteTel">Teléfono *</label>
                                 <div class="input-group input-group-light">
                                     <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                                     <!-- ✅ id="clienteTel" -->
-                                    <input type="tel" id="clienteTel" class="form-control-light" placeholder="0000-0000">
+                                    <input type="tel" id="clienteTel" class="form-control-light w-75" placeholder="0000-0000">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label-light" for="clienteWa">WhatsApp</label>
                                 <div class="input-group input-group-light">
                                     <span class="input-group-text"><i class="bi bi-whatsapp"></i></span>
-                                    <input type="tel" id="clienteWa" class="form-control-light" placeholder="0000-0000">
+                                    <input type="tel" id="clienteWa" class="form-control-light w-75" placeholder="0000-0000">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <label class="form-label-light" for="clienteEmail">Correo Electrónico</label>
                                 <input type="email" id="clienteEmail" class="form-control-light w-100" placeholder="correo@ejemplo.com">
                             </div>
@@ -604,106 +518,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/app.js"></script>
-<script>
-// ── Selección de paquete ──────────────────────────────────
-function selectPaquete(el) {
-    document.querySelectorAll('.paquete-card').forEach(c => c.classList.remove('selected'));
-    el.classList.add('selected');
-    const precio = el.dataset.precio;
-    const nombre = el.dataset.paquete;
-    // Actualiza input precio y resumen
-    document.getElementById('precioPP').value = precio > 0 ? precio : '';
-    document.getElementById('res-paquete').textContent = nombre;
-    actualizarTotal();
-}
-
-// ── Toggle servicios check cards ──────────────────────────
-document.querySelectorAll('.servicio-check-card').forEach(card => {
-    card.addEventListener('click', function() {
-        const checkbox = this.querySelector('input[type="checkbox"]');
-        this.classList.toggle('selected', checkbox.checked);
-        actualizarResumenServicios();
-    });
-});
-
-// ── Actualizar resumen lateral en tiempo real ─────────────
-function actualizarResumenLateral() {
-    const tipo      = document.getElementById('tipo');
-    const fecha     = document.getElementById('fecha');
-    const invitados = document.getElementById('invitados');
-    const buffet    = document.getElementById('buffet');
-    const anticipo  = document.getElementById('anticipo');
-
-    if (tipo)      document.getElementById('res-tipo').textContent    = tipo.value || '—';
-    if (fecha)     document.getElementById('res-fecha').textContent   = fecha.value ? new Date(fecha.value + 'T00:00:00').toLocaleDateString('es-ES') : '—';
-    if (invitados) document.getElementById('res-invitados').textContent = invitados.value || '0';
-    if (buffet)    document.getElementById('res-buffet').textContent  = buffet.value;
-    if (anticipo)  document.getElementById('res-anticipo').textContent = '$' + (parseFloat(anticipo.value) || 0).toFixed(2);
-
-    actualizarTotal();
-    actualizarChecklist();
-}
-
-function actualizarResumenServicios() {
-    const count = document.querySelectorAll('.servicio-check-card input:checked').length;
-    document.getElementById('res-servicios').textContent = count + ' seleccionados';
-    actualizarTotal();
-}
-
-function actualizarTotal() {
-    const invitados = parseFloat(document.getElementById('invitados')?.value) || 0;
-    const precio    = parseFloat(document.getElementById('precioPP')?.value)  || 0;
-    const anticipo  = parseFloat(document.getElementById('anticipo')?.value)  || 0;
-    const total     = invitados * precio;
-    document.getElementById('res-total').textContent   = '$' + total.toFixed(2);
-    document.getElementById('res-anticipo').textContent = '$' + anticipo.toFixed(2);
-}
-
-function actualizarChecklist() {
-    const nombre   = document.getElementById('nombre')?.value.trim();
-    const tipo     = document.getElementById('tipo')?.value;
-    const fecha    = document.getElementById('fecha')?.value;
-    const cliente  = document.getElementById('clienteNombre')?.value.trim();
-    const paquete  = document.querySelector('.paquete-card.selected');
-    const buffet   = document.getElementById('buffet')?.value;
-    const servicios = document.querySelectorAll('.servicio-check-card input:checked').length;
-
-    setStep('step1', nombre && tipo && fecha);
-    setStep('step2', !!cliente);
-    setStep('step3', !!paquete);
-    setStep('step4', buffet !== 'Sin buffet');
-    setStep('step5', servicios > 0);
-}
-
-function setStep(id, done) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const icon = el.querySelector('i');
-    const txt  = el.querySelector('span');
-    if (done) {
-        icon.className = 'bi bi-check-circle-fill small';
-        txt.style.color = '#8aad3f';
-    } else {
-        icon.className = 'bi bi-circle small';
-        txt.style.color = 'rgba(255,255,255,0.5)';
-    }
-}
-
-// Mostrar/ocultar alerta
-function ocultarAlerta() {
-    document.getElementById('alertaToast').style.display = 'none';
-}
-
-// ── Escuchar cambios en inputs para actualizar resumen ────
-document.addEventListener('DOMContentLoaded', () => {
-    const campos = ['tipo','fecha','invitados','buffet','anticipo','precioPP'];
-    campos.forEach(id => {
-        document.getElementById(id)?.addEventListener('input',  actualizarResumenLateral);
-        document.getElementById(id)?.addEventListener('change', actualizarResumenLateral);
-    });
-    document.getElementById('btnAgregar')?.addEventListener('click', agregarEvento);
-});
-</script>
+<script src="js/seleccion.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 </body>
 </html>

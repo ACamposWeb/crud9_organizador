@@ -1,4 +1,16 @@
 // ===============================
+//  VARIABLES GLOBALES
+// ===============================
+let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
+let indexEliminar = null;
+let modoEdicion = false;
+let indiceEdicion = null;
+let graficoEventos = null;
+let mapa;
+let marcador;
+let indiceBorrador = null;
+let idBorradorActual = null;
+// ===============================
 //  INICIALIZAR
 // ===============================
 document.addEventListener("DOMContentLoaded", async () => {
@@ -19,6 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Marcar página activa
         const paginaActual = window.location.pathname.split("/").pop();
 
+        const contenedorMapa = document.getElementById('mapa');
+
         document.querySelectorAll("#sidebar-container a").forEach(link => {
             if (link.getAttribute("href") === paginaActual) {
                 link.classList.add("active");
@@ -32,11 +46,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         actualizarResumen();
         iniciarWorkerMetricas();
         actualizarReportes();
+            if (contenedorMapa) {
+            mapaInit();
+        }
 
         // ==========================
         // Eventos
         // ==========================
         mostrarEventosTabla();
+        mostrarBorradores();
 
         document.getElementById("buscador")
             ?.addEventListener("input", aplicarFiltros);
@@ -63,16 +81,106 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Cargar edición
         // ==========================
         cargarDatosEdicion();
+        cargarBorradorFormulario();
+        cargarDetalleEvento();
 
     } catch (error) {
         console.error(error);
     }
 });
-// ===============================
-//  VARIABLES GLOBALES
-// ===============================
-let eventos = JSON.parse(localStorage.getItem("eventos")) || [];
-let indexEliminar = null;
+
+function mapaInit(){
+    mapa = L.map('mapa').setView(
+        [13.7214921845406, -89.20285915157561],
+        15
+    );
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(mapa);
+
+    mapa.on('click', function(e) {
+
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+
+        document.getElementById('latitud').value = lat;
+        document.getElementById('longitud').value = lng;
+
+        if (marcador) {
+            mapa.removeLayer(marcador);
+        }
+
+        marcador = L.marker([lat, lng]).addTo(mapa);
+        obtenerDireccion(lat, lng);
+    });
+    document.getElementById('btnUbicacionActual').addEventListener('click', () => {
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+
+                let lat = pos.coords.latitude;
+                let lng = pos.coords.longitude;
+
+                document.getElementById('latitud').value = lat;
+                document.getElementById('longitud').value = lng;
+
+                mapa.setView([lat, lng], 16);
+
+                if (marcador) {
+                    mapa.removeLayer(marcador);
+                }
+
+                marcador = L.marker([lat, lng]).addTo(mapa);
+                obtenerDireccion(lat, lng);
+            },
+            (error) => {
+                alert("No se pudo obtener la ubicación");
+            }
+        );
+
+    });
+}
+async function obtenerDireccion(lat, lng) {
+
+    try {
+
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+
+        document.getElementById("lugar").value =
+            data.display_name;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+function mostrarUbicacionGuardada(lat, lng, nombreEvento = "Ubicación del evento") {
+
+    if (!mapa) return;
+
+    lat = parseFloat(lat);
+    lng = parseFloat(lng);
+
+    if (isNaN(lat) || isNaN(lng)) return;
+
+    if (marcador) {
+        mapa.removeLayer(marcador);
+    }
+
+    marcador = L.marker([lat, lng])
+        .addTo(mapa)
+        .bindPopup(nombreEvento)
+        .openPopup();
+
+    mapa.setView([lat, lng], 16);
+}
+
 
 // ===============================
 //  GUARDAR EN LOCALSTORAGE
@@ -267,6 +375,8 @@ function agregarEvento() {
         lugar:        lugar.value.trim(),
         invitados:    invitados.value,
         estado:       document.getElementById("estado")?.value || "Pendiente",
+        latitud:      document.getElementById("latitud")?.value,
+        longitud:     document.getElementById("longitud")?.value,
         cliente: {
             nombre:    clienteNombre.value.trim(),
             dui:       document.getElementById("clienteDui")?.value || "",
@@ -289,7 +399,34 @@ function agregarEvento() {
         id: Date.now()
     };
 
-    eventos.push(nuevoEvento);
+    if (modoEdicion) {
+
+        nuevoEvento.id = eventos[indiceEdicion].id;
+        nuevoEvento.fechaRegistro = eventos[indiceEdicion].fechaRegistro;
+
+        eventos[indiceEdicion] = nuevoEvento;
+
+    } else {
+
+        eventos.push(nuevoEvento);
+
+    }
+    if (idBorradorActual) {
+
+    let borradores =
+        JSON.parse(sessionStorage.getItem("borradores")) || [];
+
+    borradores = borradores.filter(
+        b => b.idBorrador !== idBorradorActual
+    );
+
+    sessionStorage.setItem(
+        "borradores",
+        JSON.stringify(borradores)
+    );
+
+    sessionStorage.removeItem("editarBorrador");
+}
     guardarEventos();
 
     mostrarAlerta("¡Evento creado correctamente! Redirigiendo...", "success");
@@ -304,20 +441,249 @@ function agregarEvento() {
 //  GUARDAR BORRADOR
 // ===============================
 function guardarBorrador() {
-    const nombre = document.getElementById("nombre")?.value.trim();
-    if (!nombre) {
-        mostrarAlerta("Escribe al menos el nombre del evento para guardar el borrador.", "warning");
+
+    const datos = recogerDatos();
+    datos.idBorrador = idBorradorActual || Date.now();
+    if (!datos.nombre) {
+        mostrarAlerta(
+            "Escribe al menos el nombre del evento.",
+            "warning"
+        );
         return;
     }
-    const borrador = {
-        nombre,
-        fecha:  document.getElementById("fecha")?.value || "",
-        tipo:   document.getElementById("tipo")?.value || "",
-        lugar:  document.getElementById("lugar")?.value || "",
-        notas:  document.getElementById("notas")?.value || ""
+    datos.idBorrador = datos.idBorrador || Date.now();
+    let borradores =
+        JSON.parse(sessionStorage.getItem("borradores")) || [];
+
+    if (indiceBorrador !== null) {
+
+        // Actualizar el existente
+        borradores[indiceBorrador] = datos;
+
+        mostrarAlerta(
+            "Borrador actualizado correctamente.",
+            "info"
+        );
+
+    } else {
+
+        // Crear nuevo
+        datos.fechaBorrador = new Date().toISOString();
+
+        borradores.push(datos);
+
+        indiceBorrador = borradores.length - 1;
+
+        mostrarAlerta(
+            "Borrador guardado correctamente. Redirigiendo",
+            "info"
+        );
+    }
+
+    sessionStorage.setItem(
+        "borradores",
+        JSON.stringify(borradores)
+    );
+    setTimeout(() => { window.location.href = "eventos.html"; }, 1500);
+}
+
+function mostrarBorradores() {
+
+    const tabla = document.getElementById("tablaEventosBorradores");
+    const seccion = document.getElementById("seccionBorradores");
+
+    if (!tabla || !seccion) return;
+
+    const borradores = JSON.parse(sessionStorage.getItem("borradores")) || [];
+     // Ocultar sección si no hay borradores
+    if (borradores.length === 0) {
+        seccion.classList.add("d-none");
+        return;
+    }
+
+    // Mostrar sección si existen
+    seccion.classList.remove("d-none");
+
+    tabla.innerHTML = "";
+
+    borradores.forEach((ev, index) => {
+
+        tabla.innerHTML += `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${ev.nombre || "-"}</td>
+            <td>${ev.tipo || "-"}</td>
+            <td>${ev.fecha || "-"}</td>
+            <td>
+                <span class="badge bg-warning text-dark">
+                    Borrador
+                </span>
+            </td>
+            <td>
+                <button class="btn btn-sm btn-primary"
+                        onclick="cargarBorrador(${index})">
+                    <i class="bi bi-pencil"></i>
+                </button>
+
+                <button class="btn btn-sm btn-danger"
+                        onclick="eliminarBorrador(${index})">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+    });
+}
+function cargarBorrador(index) {
+
+    const borradores =
+        JSON.parse(sessionStorage.getItem("borradores")) || [];
+
+    const borrador = borradores[index];
+
+    borrador.indexBorrador = index;
+
+    sessionStorage.setItem(
+        "editarBorrador",
+        JSON.stringify(borrador)
+    );
+
+    window.location.href = "nuevo_evento.html";
+}
+function eliminarBorrador(index){
+
+    let borradores =
+        JSON.parse(sessionStorage.getItem("borradores")) || [];
+
+    borradores.splice(index, 1);
+
+    sessionStorage.setItem(
+        "borradores",
+        JSON.stringify(borradores)
+    );
+
+    mostrarBorradores();
+}
+function cargarBorradorFormulario() {
+
+    const data = sessionStorage.getItem("editarBorrador");
+
+    if (!data) return;
+
+    const ev = JSON.parse(data);
+
+    idBorradorActual = ev.idBorrador;
+
+    indiceBorrador = ev.indexBorrador;
+
+    const set = (id, valor) => {
+        const el = document.getElementById(id);
+        if (el) el.value = valor || "";
     };
-    sessionStorage.setItem("borrador_evento", JSON.stringify(borrador));
-    mostrarAlerta("Borrador guardado en sesión.", "info");
+
+    // ==========================
+    // Información general
+    // ==========================
+    set("nombre", ev.nombre);
+    set("fecha", ev.fecha);
+    set("tipo", ev.tipo);
+    set("horaInicio", ev.horaInicio);
+    set("horaFin", ev.horaFin);
+    set("lugar", ev.lugar);
+    set("latitud", ev.latitud);
+    set("longitud", ev.longitud);
+    set("invitados", ev.invitados);
+    set("estado", ev.estado);
+
+    // ==========================
+    // Cliente
+    // ==========================
+    set("clienteNombre", ev.cliente?.nombre);
+    set("clienteDui", ev.cliente?.dui);
+    set("clienteTel", ev.cliente?.telefono);
+    set("clienteWa", ev.cliente?.whatsapp);
+    set("clienteEmail", ev.cliente?.email);
+    set("clienteDireccion", ev.cliente?.direccion);
+
+    // ==========================
+    // Paquete
+    // ==========================
+    set("precioPP", ev.precioPP);
+    set("anticipo", ev.anticipo);
+    set("formaPago", ev.formaPago);
+
+    document.querySelectorAll(".paquete-card").forEach(card => {
+        card.classList.remove("selected");
+
+        if (card.dataset.paquete === ev.paquete) {
+            card.classList.add("selected");
+        }
+    });
+
+    // ==========================
+    // Buffet
+    // ==========================
+    set("buffet", ev.buffet);
+    set("tiempos", ev.tiempos);
+    set("menuNotas", ev.menuNotas);
+
+    // ==========================
+    // Restricciones alimentarias
+    // ==========================
+    if (Array.isArray(ev.restricciones)) {
+
+        ["veg", "vegan", "gluten", "lactosa", "alergias"]
+            .forEach(id => {
+
+                const checkbox = document.getElementById(id);
+
+                if (checkbox) {
+                    checkbox.checked =
+                        ev.restricciones.includes(id);
+                }
+            });
+    }
+
+    // ==========================
+    // Servicios
+    // ==========================
+    if (Array.isArray(ev.servicios)) {
+
+        document
+            .querySelectorAll('.servicio-check-card input[type="checkbox"]')
+            .forEach(cb => {
+
+                cb.checked =
+                    ev.servicios.includes(cb.value);
+            });
+    }
+
+    // ==========================
+    // Notas
+    // ==========================
+    set("notas", ev.notas);
+
+    // ==========================
+    // Mostrar ubicación en mapa
+    // ==========================
+    if (ev.latitud && ev.longitud) {
+
+        setTimeout(() => {
+
+            if (typeof mostrarUbicacionGuardada === "function") {
+
+                mostrarUbicacionGuardada(
+                    ev.latitud,
+                    ev.longitud,
+                    ev.nombre
+                );
+            }
+
+        }, 500);
+    }
+
+    // Limpiar sesión
+    sessionStorage.removeItem("editarBorrador");
+
 }
 
 // ===============================
@@ -355,11 +721,10 @@ function editarEvento(index) {
 //  VER DETALLE
 // ===============================
 function verEvento(index) {
-    const ev = eventos[index];
-    const fecha = new Date(ev.fecha + "T00:00:00").toLocaleDateString("es-ES", {
-        weekday: "long", year: "numeric", month: "long", day: "numeric"
-    });
-    alert(`📅 ${ev.nombre}\nFecha: ${fecha}\nTipo: ${ev.tipo}\nLugar: ${ev.lugar || "—"}\nInvitados: ${ev.invitados || "—"}\nCliente: ${ev.cliente?.nombre || "—"}\nEstado: ${ev.estado || "—"}`);
+
+    sessionStorage.setItem("eventoDetalle",JSON.stringify({ ...eventos[index], index}));
+    window.location.href = "detalle_evento.html";
+
 }
 
 // ===============================
@@ -425,6 +790,8 @@ function recogerDatos() {
         lugar:      document.getElementById("lugar")?.value.trim(),
         invitados:  document.getElementById("invitados")?.value,
         estado:     document.getElementById("estado")?.value,
+        latitud:      document.getElementById("latitud")?.value,
+        longitud:     document.getElementById("longitud")?.value,
         cliente: {
             nombre:    document.getElementById("clienteNombre")?.value.trim(),
             dui:       document.getElementById("clienteDui")?.value,
@@ -581,6 +948,7 @@ function iniciarWorkerMetricas() {
 
     worker.onmessage = function (e) {
         const m = e.data;
+        crearGraficoEventos(m.tipos);
 
         const set = (id, val) => {
             const el = document.getElementById(id);
@@ -610,6 +978,8 @@ function cargarDatosEdicion(){
     const editData = sessionStorage.getItem("editarEvento");
     if (editData && document.getElementById("nombre")) {
         const ev = JSON.parse(editData);
+        modoEdicion = true;
+        indiceEdicion = ev.index;
         sessionStorage.removeItem("editarEvento");
 
         const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
@@ -619,6 +989,8 @@ function cargarDatosEdicion(){
         set("horaInicio",       ev.horaInicio);
         set("horaFin",          ev.horaFin);
         set("lugar",            ev.lugar);
+        set("latitud",          ev.latitud);
+        set("longitud",         ev.longitud);
         set("invitados",        ev.invitados);
         set("estado",           ev.estado);
         set("clienteNombre",    ev.cliente?.nombre);
@@ -655,16 +1027,163 @@ function cargarDatosEdicion(){
         if (titulo) titulo.textContent = "Editar Evento";
 
         const btn = document.getElementById("btnAgregar");
+
         if (btn) {
-            btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Actualizar Evento';
-            btn.onclick = () => {
-                eventos[ev.index] = { ...eventos[ev.index], ...recogerDatos() };
-                guardarEventos();
-                mostrarAlerta("Evento actualizado correctamente. Redirigiendo...", "success");
-                btn.disabled = true;
-                setTimeout(() => { window.location.href = "eventos.html"; }, 1500);
-            };
+            btn.innerHTML =
+                '<i class="bi bi-check-lg me-2"></i>Actualizar Evento';
+        }
+        if (ev.latitud && ev.longitud) {
+
+            setTimeout(() => {
+
+                mostrarUbicacionGuardada(
+                    ev.latitud,
+                    ev.longitud,
+                    ev.nombre
+                );
+
+            }, 500);
+
+        }
+    }
+    
+}
+function crearGraficoEventos(tipos) {
+
+    const canvas = document.getElementById("graficoEventos");
+
+    if (!canvas) return;
+
+    if (graficoEventos) {
+        graficoEventos.destroy();
+    }
+
+    graficoEventos = new Chart(canvas, {
+
+        type: "doughnut",
+
+        data: {
+            labels: Object.keys(tipos),
+
+            datasets: [{
+                data: Object.values(tipos),
+                borderWidth: 2
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+
+    });
+
+}
+
+
+function cargarDetalleEvento() {
+    // ── Cargar datos para editar ──
+    const detailsData = sessionStorage.getItem("eventoDetalle");
+    if (detailsData && document.getElementById("detalleNombre")) {
+        const ev = JSON.parse(detailsData);
+        console.log(ev);
+        sessionStorage.removeItem("detailsData");
+        const total = ev.precioPP * ev.invitados;
+
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ""; };
+        set("detalleNombre",           ev.nombre);
+        set("detalleFecha",            ev.fecha);
+        set("detalleTipo",             ev.tipo);
+        set("detalleHoraInicio",       ev.horaInicio);
+        set("detalleHoraFin",          ev.horaFin);
+        set("detalleLugar",            ev.lugar);
+         set("latitud",          ev.latitud);
+         set("longitud",         ev.longitud);
+        set("detalleInvitados",        ev.invitados);
+        set("detalleEstado",           ev.estado);
+         set("clienteNombre",    ev.cliente?.nombre);
+         set("clienteDui",       ev.cliente?.dui);
+         set("clienteTel",       ev.cliente?.telefono);
+         set("clienteWa",        ev.cliente?.whatsapp);
+         set("clienteEmail",     ev.cliente?.email);
+         set("clienteDireccion", ev.cliente?.direccion);
+        set("detallePrecioPP",         ev.precioPP);
+        set("detalleAnticipo",         ev.anticipo);
+        set("detalleFormaPago",        ev.formaPago);
+        set("detalleBuffet",           ev.buffet);
+        set("detalleTiempos",          ev.tiempos);
+        set("detalleMenuNotas",        ev.menuNotas);
+        set("detalleNotas",            ev.notas);
+        set("detalleTotal",      total);
+
+        const badge = document.getElementById("detalleEstado");
+        if (ev.estado === "Confirmado") {
+            badge.classList.add("bg-success");
+        } else if (ev.estado === "Finalizado") {
+            badge.classList.add("bg-danger");
+        } else if (ev.estado === "Pendiente") {
+            badge.classList.add("bg-warning");
+        } else {
+            badge.classList.add("bg-info");
+        }
+        document.querySelectorAll('.paquete-card').forEach(c => {
+            const seleccionado = c.dataset.paquete === ev.paquete;
+
+            c.classList.toggle('selected', seleccionado);
+
+            if (seleccionado) {
+                c.classList.remove('d-none');
+            }
+        });
+        ev.restricciones.forEach(restriccion => {
+            const checkbox = document.getElementById(restriccion);
+
+            if (checkbox) {
+                checkbox.checked = true;
+                checkbox.closest('.form-check')?.classList.remove('d-none');
+            }
+        });
+        // Servicios
+        if (ev.servicios) {
+            document.querySelectorAll('.service input').forEach(cb => {
+                if (ev.servicios.includes(cb.value)) {
+                    cb.checked = true;
+                    cb.closest('.servicio-check-card').classList.add('selected');
+                    cb.closest('.service')?.classList.remove('d-none');
+                }
+            });
+        }
+
+        // Cambiar título y botón
+        const titulo = document.getElementById("tituloFormulario");
+        if (titulo) titulo.textContent = "Editar Evento";
+
+        const btn = document.getElementById("btnAgregar");
+
+        if (btn) {
+            btn.innerHTML =
+                '<i class="bi bi-check-lg me-2"></i>Actualizar Evento';
+        }
+        if (ev.latitud && ev.longitud) {
+
+            setTimeout(() => {
+
+                mostrarUbicacionGuardada(
+                    ev.latitud,
+                    ev.longitud,
+                    ev.nombre
+                );
+
+            }, 500);
+
         }
     }
 }
+
 
