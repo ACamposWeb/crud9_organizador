@@ -1051,8 +1051,30 @@ function cargarDatosEdicion(){
 function crearGraficoEventos(tipos) {
 
     const canvas = document.getElementById("graficoEventos");
+    const sinDatos = document.getElementById("sinDatosGrafico");
 
     if (!canvas) return;
+
+    const total = Object.values(tipos)
+        .reduce((suma, valor) => suma + valor, 0);
+
+    // No hay datos
+    if (total === 0) {
+
+        if (graficoEventos) {
+            graficoEventos.destroy();
+            graficoEventos = null;
+        }
+
+        canvas.classList.add("d-none");
+        sinDatos?.classList.remove("d-none");
+
+        return;
+    }
+
+    // Hay datos
+    canvas.classList.remove("d-none");
+    sinDatos?.classList.add("d-none");
 
     if (graficoEventos) {
         graficoEventos.destroy();
@@ -1083,7 +1105,6 @@ function crearGraficoEventos(tipos) {
         }
 
     });
-
 }
 
 
